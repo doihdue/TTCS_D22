@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Quản Lý Sản Phẩm</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- CSS Tùy chỉnh -->
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .sidebar {
+            background-color: #212529;
+            color: #fff;
+            min-height: 100vh;
+            position: fixed;
+            width: 250px;
+        }
+        .sidebar .nav-link {
+            color: rgba(255, 255, 255, 0.75);
+            padding: 0.75rem 1rem;
+            border-radius: 0.25rem;
+            margin: 0.2rem 0;
+        }
+        .sidebar .nav-link:hover {
+            color: #fff;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .sidebar .nav-link.active {
+            color: #fff;
+            background-color: #0d6efd;
+        }
+        .sidebar .nav-link i {
+            margin-right: 0.5rem;
+        }
+        .main-content {
+            margin-left: 250px;
+            padding: 2rem;
+        }
+        .card {
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            margin-bottom: 1.5rem;
+        }
+        .product-img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 0.25rem;
+        }
+        .table-responsive {
+            overflow-x: auto;
+        }
+        .rating-stars {
+            color: #ffc107;
+        }
+        .badge-stock {
+            font-size: 0.75rem;
+        }
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 100%;
+                position: relative;
+                min-height: auto;
+            }
+            .main-content {
+                margin-left: 0;
+            }
+            .sidebar-nav {
+                display: flex;
+                flex-wrap: wrap;
+            }
+            .sidebar-nav .nav-item {
+                width: auto;
+            }
+        }
+        .navbar-mobile {
+            display: none;
+        }
+        @media (max-width: 992px) {
+            .navbar-mobile {
+                display: block;
+            }
+            .sidebar {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Thanh điều hướng cho thiết bị di động -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-mobile">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Quản Trị Hệ Thống</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" th:href="@{/admin/dashboard}"><i class="fas fa-tachometer-alt"></i> Tổng Quan</a>
+                    </li>
+                    <li class="nav-item">
+                        <a th:href="@{/admin-product}" class="nav-link active">
+                            <i class="fas fa-box"></i> Sản Phẩm
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a th:href="@{/orders}" class="nav-link">
+                            <i class="fas fa-shopping-cart"></i> Đơn Hàng
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a th:href="@{/customers}" class="nav-link">
+                            <i class="fas fa-users"></i> Khách Hàng
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-cog"></i> Cài Đặt</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/LoginUser}"><i class="fas fa-sign-out-alt"></i> Đăng Xuất</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Thanh bên -->
+    <div class="sidebar">
+        <div class="d-flex flex-column p-3">
+            <a href="#" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                <i class="fas fa-store-alt fs-4 me-2"></i>
+                <span class="fs-4">Quản Trị Hệ Thống</span>
+            </a>
+            <hr>
+            <ul class="nav nav-pills flex-column mb-auto sidebar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/admin/dashboard}">
+                        <i class="fas fa-tachometer-alt"></i> Tổng Quan
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/admin-product}" class="nav-link active">
+                        <i class="fas fa-box"></i> Sản Phẩm
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/orders}" class="nav-link">
+                        <i class="fas fa-shopping-cart"></i> Đơn Hàng
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/customers}" class="nav-link">
+                        <i class="fas fa-users"></i> Khách Hàng
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-cog"></i> Cài Đặt
+                    </a>
+                </li>
+            </ul>
+            <hr>
+            <a th:href="@{/LoginUser}" class="nav-link text-white">
+                <i class="fas fa-sign-out-alt"></i> Đăng Xuất
+            </a>
+        </div>
+    </div>
+
+    <!-- Nội dung chính -->
+    <div class="main-content">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="h2">Quản Lý Sản Phẩm</h1>
+                <p class="text-muted">Quản lý danh sách sản phẩm của bạn</p>
+            </div>
+            <a th:href="@{/add-product}" class="btn btn-primary">
+                <i class="fas fa-plus me-2"></i>Thêm Sản Phẩm
+            </a>
+        </div>
+
+        <!-- Thẻ thống kê -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Tổng Sản Phẩm</h6>
+                        <h2 class="card-title" th:text="${totalProducts}"></h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Sản Phẩm Hết Hàng</h6>
+                        <h2 class="card-title" th:text="${outOfStockProducts}"></h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Sản Phẩm Giảm Giá</h6>
+                        <h2 class="card-title" th:text="${discountedProducts}"></h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Đánh Giá Trung Bình</h6>
+                        <h2 class="card-title"> <i class="fas fa-star rating-stars"></i></h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-search"></i></span>
+                    <input type="text" class="form-control" placeholder="Tìm kiếm sản phẩm...">
+                </div>
+            </div>
+            <div class="col-md-6 d-flex justify-content-end">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-outline-secondary">
+                        <i class="fas fa-filter me-2"></i>Lọc
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">
+                        <span class="visually-hidden">Mở rộng</span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Tất cả sản phẩm</a></li>
+                        <li><a class="dropdown-item" href="#">Sản phẩm giảm giá</a></li>
+                        <li><a class="dropdown-item" href="#">Sản phẩm hết hàng</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">Sắp xếp theo giá: Thấp đến cao</a></li>
+                        <li><a class="dropdown-item" href="#">Sắp xếp theo giá: Cao đến thấp</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        -->
+
+        <!-- Tìm kiếm và Lọc (Phần này sẽ được DataTables tự động tạo, bạn có thể ẩn/xóa) -->
+        <!--
+        <div class="row mb-4">
+            ... (Phần tìm kiếm và lọc của bạn) ...
+        </div>
+        -->
+
+        <!-- Bảng sản phẩm -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Danh Sách Sản Phẩm</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle" id="productDataTable" width="100%" cellspacing="0">
+                        <thead class="table-light">
+                        <tr>
+                            <th scope="col" width="60">Ảnh</th>
+                            <th scope="col">Tên Sản Phẩm</th>
+                            <th scope="col">Danh Mục</th>
+                            <th scope="col">Giá (VNĐ)</th>
+                            <th scope="col">Tồn Kho</th>
+                            <th scope="col">Đánh Giá</th> <!-- Giữ lại tiêu đề cột Đánh Giá, nhưng nội dung sẽ trống hoặc là placeholder -->
+                            <th scope="col" class="text-end">Thao Tác</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!-- Lặp qua danh sách sản phẩm -->
+                        <tr th:each="product : ${productDtoList}">
+                            <td>
+                                <img th:if="${product.linkImage != null && !product.linkImage.isEmpty()}"
+                                     th:src="@{${product.linkImage}}" alt="Ảnh sản phẩm" class="product-img">
+                                <img th:unless="${product.linkImage != null && !product.linkImage.isEmpty()}"
+                                     th:src="@{/images/default-product.png}" alt="Ảnh mặc định" class="product-img">
+                            </td>
+                            <td th:text="${product.productName}">Tên sản phẩm ABC</td>
+                            <td>
+                        <span class="badge bg-light text-dark"
+                              th:text="${product.categoryName != null ? product.categoryName : 'Chưa phân loại'}">Chưa phân loại</span>
+                            </td>
+                            <td>
+                                <div th:text="${product.price != null ? #numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT') + '₫' : 'N/A'}">1,200,000₫</div>
+                                <small class="text-muted"
+                                       th:if="${product.oldPrice != null && product.oldPrice > 0}"
+                                       th:text="${#numbers.formatDecimal(product.oldPrice, 0, 'COMMA', 0, 'POINT')} + '₫'"></small>
+                            </td>
+                            <td th:text="${product.stock != null ? product.stock : 0}">50</td>
+                            <td>
+                                <!-- BỎ PHẦN HIỂN THỊ SAO ĐÁNH GIÁ -->
+                                <!-- Bạn có thể để trống hoặc thêm một placeholder đơn giản nếu muốn -->
+                                <span class="text-muted">N/A</span>
+                            </td>
+                            <td class="text-end">
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li>
+                                            <a class="dropdown-item" th:href="@{/admin/product-detail/{id}(id=${product.productID})}">
+                                                <i class="fas fa-eye me-2"></i>Xem Chi Tiết
+                                            </a>
+                                        </li>
+                                        <li><a class="dropdown-item" th:href="@{/admin/edit-product/{id}(id=${product.productID})}">
+                                            <i class="fas fa-edit me-2"></i>Sửa</a>
+                                        </li>
+                                        <li>
+                                            <form th:action="@{/admin/delete-product/{id}(id=${product.productID})}" method="post"
+                                                  th:attr="onsubmit='return confirm(\'Bạn có chắc chắn muốn xoá sản phẩm: \' + ${product.productName} + \'?\');'">
+                                                <button type="submit" class="dropdown-item text-danger">
+                                                    <i class="fas fa-trash-alt me-2"></i>Xoá
+                                                </button>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                        <!-- Trường hợp không có sản phẩm -->
+                        <tr th:if="${productDtoList == null || #lists.isEmpty(productDtoList)}">
+                            <td colspan="7" class="text-center text-muted py-4">
+                                <i class="fas fa-box-open fa-2x mb-2"></i><br>
+                                Không tìm thấy sản phẩm nào.
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- DataTables sẽ tự thêm phân trang, bỏ card-footer tĩnh -->
+        </div>
+
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Trong <head> -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+    <style>
+        /* CSS cho ảnh sản phẩm nếu cần */
+        .product-img {
+            max-width: 50px; /* Hoặc kích thước bạn muốn */
+            max-height: 50px;
+            object-fit: cover; /* Để ảnh không bị méo */
+            border-radius: .25rem; /* Bo góc nhẹ */
+        }
+        .rating-stars i {
+            color: #ffc107; /* Màu vàng cho sao */
+        }
+    </style>
+
+    <!-- Gần cuối thẻ <body> -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            if ($('#productDataTable').length) {
+                $('#productDataTable').DataTable({
+                    language: {
+                        url: '//cdn.datatables.net/plug-ins/1.11.5/i18n/vi.json'
+                    },
+                    columnDefs: [
+                        { orderable: false, targets: 0 }, // Cột Ảnh
+                        { orderable: false, targets: 5 }, // Cột Đánh Giá (nếu bạn giữ lại cột này nhưng không cho sắp xếp)
+                        { orderable: false, targets: -1 } // Cột Thao tác
+                    ]
+                });
+            }
+        });
+    </script>
+</body>
+</html>
+

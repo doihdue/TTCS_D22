@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DMD - Hạt Dinh Dưỡng, Trái Cây Sấy, Nguyên Liệu Làm Bánh</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<!-- Import Header Fragment -->
+<div th:replace="~{fragments/header :: header}"></div>
+
+    <!-- Page Header -->
+    <section class="page-header py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h1 class="fw-bold">GIỚI THIỆU VỀ DMD</h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb justify-content-center">
+                            <li class="breadcrumb-item"><a th:href="@{/}">Trang chủ</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Giới thiệu</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us Content -->
+    <section class="about-content py-5">
+        <div class="container">
+            <div class="row align-items-center mb-5">
+                <div class="col-md-6">
+                    <h2 class="mb-4">CHÚNG TÔI LÀ AI?</h2>
+                    <p>DMD được thành lập vào năm 2015, là đơn vị chuyên cung cấp các loại hạt dinh dưỡng, trái cây sấy và nguyên liệu làm bánh chất lượng cao tại Việt Nam.</p>
+                    <p>Với phương châm "Dinh dưỡng từ thiên nhiên - Cho cuộc sống của bạn", chúng tôi luôn nỗ lực mang đến những sản phẩm tốt nhất, đảm bảo an toàn vệ sinh thực phẩm, giúp khách hàng có một cuộc sống khỏe mạnh hơn.</p>
+                    <p>Tất cả sản phẩm của DMD đều được chọn lọc kỹ lưỡng từ các nhà cung cấp uy tín trong và ngoài nước, đảm bảo nguồn gốc xuất xứ rõ ràng và chất lượng tốt nhất.</p>
+                </div>
+                <div class="col-md-6">
+                    <img src="images/gioithieu.jpg" alt="Về DMD" class="img-fluid rounded">
+                </div>
+            </div>
+
+            <div class="row mb-5">
+                <div class="col-12 text-center">
+                    <h2 class="mb-4">TẦM NHÌN & SỨ MỆNH</h2>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <i class="fas fa-eye fa-3x text-primary mb-3"></i>
+                            <h3>Tầm Nhìn</h3>
+                            <p>Trở thành đơn vị hàng đầu trong lĩnh vực cung cấp thực phẩm dinh dưỡng tại Việt Nam, mang đến cho khách hàng những sản phẩm chất lượng cao, góp phần nâng cao sức khỏe cộng đồng.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <i class="fas fa-bullseye fa-3x text-primary mb-3"></i>
+                            <h3>Sứ Mệnh</h3>
+                            <p>Cung cấp các sản phẩm dinh dưỡng tự nhiên, an toàn và chất lượng cao. Nâng cao nhận thức của người tiêu dùng về tầm quan trọng của dinh dưỡng đối với sức khỏe và cuộc sống.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-5">
+                <div class="col-12 text-center">
+                    <h2 class="mb-4">GIÁ TRỊ CỐT LÕI</h2>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <i class="fas fa-check-circle fa-3x text-primary mb-3"></i>
+                            <h4>Chất Lượng</h4>
+                            <p>Cam kết cung cấp sản phẩm chất lượng cao, đảm bảo an toàn vệ sinh thực phẩm.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <i class="fas fa-heart fa-3x text-primary mb-3"></i>
+                            <h4>Tận Tâm</h4>
+                            <p>Luôn lắng nghe và đáp ứng nhu cầu của khách hàng một cách tận tâm nhất.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <i class="fas fa-leaf fa-3x text-primary mb-3"></i>
+                            <h4>Tự Nhiên</h4>
+                            <p>Ưu tiên các sản phẩm tự nhiên, không chất bảo quản, tốt cho sức khỏe.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <i class="fas fa-sync-alt fa-3x text-primary mb-3"></i>
+                            <h4>Đổi Mới</h4>
+                            <p>Không ngừng cải tiến và đổi mới để mang đến những sản phẩm tốt nhất.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row align-items-center">
+                <div class="col-md-6 order-md-2">
+                    <h2 class="mb-4">QUÁ TRÌNH PHÁT TRIỂN</h2>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <h5>2015</h5>
+                            <p>Thành lập DMD với cửa hàng đầu tiên tại Chương Mỹ, TP.HN.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h5>2017</h5>
+                            <p>Mở rộng danh mục sản phẩm, bổ sung thêm trái cây sấy và nguyên liệu làm bánh.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h5>2019</h5>
+                            <p>Phát triển kênh bán hàng online và mở thêm chi nhánh tại Hà Đông, TP.HN.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h5>2021</h5>
+                            <p>Đạt chứng nhận HACCP về an toàn vệ sinh thực phẩm.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h5>2023</h5>
+                            <p>Mở rộng thị trường ra các tỉnh thành trên cả nước và phát triển dòng sản phẩm organic.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 order-md-1">
+                    <img src="images/phattrien.jpg" alt="Quá trình phát triển" class="img-fluid rounded">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="team-section py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center mb-5">ĐỘI NGŨ CỦA CHÚNG TÔI</h2>
+            <div class="row">
+                <div class="col-md-3 mb-4">
+                    <div class="card team-card h-100">
+                        <!-- Thay thế img bằng icon -->
+                        <div class="team-icon-container text-center pt-4 pb-3">
+                            <i class="fas fa-user-tie fa-5x text-secondary"></i> <!-- Icon cho CEO -->
+                        </div>
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Nguyễn Văn A</h5>
+                            <p class="text-muted">Giám đốc điều hành</p>
+                            <div class="social-links">
+                                <a href="#" class="text-primary me-2"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#" class="text-primary me-2"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="#" class="text-primary"><i class="fab fa-instagram"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="card team-card h-100">
+                        <!-- Thay thế img bằng icon -->
+                        <div class="team-icon-container text-center pt-4 pb-3">
+                            <i class="fas fa-user-cog fa-5x text-secondary"></i> <!-- Icon cho Manager -->
+                        </div>
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Trần Thị B</h5>
+                            <p class="text-muted">Quản lý sản phẩm</p>
+                            <div class="social-links">
+                                <a href="#" class="text-primary me-2"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#" class="text-primary me-2"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="#" class="text-primary"><i class="fab fa-instagram"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="card team-card h-100">
+                        <!-- Thay thế img bằng icon -->
+                        <div class="team-icon-container text-center pt-4 pb-3">
+                            <i class="fas fa-bullhorn fa-5x text-secondary"></i> <!-- Icon cho Marketing -->
+                        </div>
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Lê Văn C</h5>
+                            <p class="text-muted">Giám đốc marketing</p>
+                            <div class="social-links">
+                                <a href="#" class="text-primary me-2"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#" class="text-primary me-2"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="#" class="text-primary"><i class="fab fa-instagram"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="card team-card h-100">
+                        <!-- Thay thế img bằng icon -->
+                        <div class="team-icon-container text-center pt-4 pb-3">
+                            <i class="fas fa-check-circle fa-5x text-secondary"></i> <!-- Icon cho Quality -->
+                        </div>
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Phạm Thị D</h5>
+                            <p class="text-muted">Quản lý chất lượng</p>
+                            <div class="social-links">
+                                <a href="#" class="text-primary me-2"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#" class="text-primary me-2"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="#" class="text-primary"><i class="fab fa-instagram"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Import Footer Fragment -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+
+<!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JavaScript -->
+    <script th:src="@{/js/script.js}"></script>
+
+    <!-- Import Header Script -->
+    <div th:replace="~{fragments/header :: header-script}"></div>
+</body>
+</html>

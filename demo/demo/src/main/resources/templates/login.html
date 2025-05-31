@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DMD - Hạt Dinh Dưỡng, Trái Cây Sấy, Nguyên Liệu Làm Bánh</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <style>
+        .login-container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .login-header img {
+            max-width: 150px;
+            margin-bottom: 20px;
+        }
+        .login-form .form-control {
+            height: 50px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .login-btn {
+            height: 50px;
+            background-color: #0056b3;
+            border: none;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        .login-btn:hover {
+            background-color: #003d7e;
+        }
+        .social-login {
+            margin-top: 30px;
+            text-align: center;
+        }
+        .social-btn {
+            width: 100%;
+            margin-bottom: 15px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+            font-weight: 500;
+        }
+        .facebook-btn {
+            background-color: #3b5998;
+            color: white;
+        }
+        .google-btn {
+            background-color: #fff;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 30px 0;
+        }
+        .divider hr {
+            flex: 1;
+            border-color: #ddd;
+        }
+        .divider span {
+            padding: 0 15px;
+            color: #777;
+        }
+        .signup-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        /* Password toggle button style */
+        .password-container {
+            position: relative;
+        }
+        .password-toggle {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            color: #6c757d;
+        }
+        .password-toggle:hover {
+            color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<!-- Import Header Fragment -->
+<div th:replace="~{fragments/header :: header}"></div>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <div class="login-container">
+                <div class="login-header">
+                    <h2>Đăng Nhập</h2>
+                    <p class="text-muted">Đăng nhập để mua sắm và theo dõi đơn hàng của bạn</p>
+                </div>
+
+                <form class="login-form" th:action="@{/LoginUser}" method="post" th:object="${user}">
+                    <!-- Hiển thị thông báo lỗi nếu có -->
+                    <div th:if="${error != null}" class="alert alert-danger">
+                        <p th:text="${error}"></p>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email hoặc Số điện thoại</label>
+                        <input type="text" class="form-control" id="email" placeholder="Nhập email hoặc số điện thoại" th:field="*{email}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Mật khẩu</label>
+                        <div class="password-container">
+                            <input type="password" class="form-control" id="password" placeholder="Nhập mật khẩu" th:field="*{password}">
+                            <button type="button" class="password-toggle" id="togglePassword" aria-label="Hiển thị/Ẩn mật khẩu">
+                                <i class="far fa-eye" id="toggleIcon"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="rememberMe">
+                        <label class="form-check-label" for="rememberMe">Ghi nhớ đăng nhập</label>
+                        <a th:href="@{/forgotPassword}" class="float-end">Quên mật khẩu?</a>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary login-btn w-100">ĐĂNG NHẬP</button>
+                </form>
+
+
+
+                <div class="divider">
+                    <hr>
+                    <span>HOẶC</span>
+                    <hr>
+                </div>
+                
+                <div class="social-login">
+                    <button class="btn social-btn facebook-btn mb-3">
+                        <i class="fab fa-facebook-f me-2"></i> Đăng nhập bằng Facebook
+                    </button>
+                    <button class="btn social-btn google-btn">
+                        <i class="fab fa-google me-2"></i> Đăng nhập bằng Google
+                    </button>
+                </div>
+                
+                <div class="signup-link">
+                    <p>Bạn chưa có tài khoản? <a th:href="@{/signupUser}">Đăng ký ngay</a></p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Import Footer Fragment -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+
+<!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JavaScript -->
+    <script th:src="@{/js/script.js}"></script>
+
+    <!-- Import Header Script -->
+    <div th:replace="~{fragments/header :: header-script}"></div>
+    
+    <!-- Password Toggle Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const togglePassword = document.getElementById('togglePassword');
+            const password = document.getElementById('password');
+            const toggleIcon = document.getElementById('toggleIcon');
+            
+            togglePassword.addEventListener('click', function() {
+                // Toggle the type attribute
+                const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+                password.setAttribute('type', type);
+                
+                // Toggle the icon
+                if (type === 'password') {
+                    toggleIcon.classList.remove('fa-eye-slash');
+                    toggleIcon.classList.add('fa-eye');
+                } else {
+                    toggleIcon.classList.remove('fa-eye');
+                    toggleIcon.classList.add('fa-eye-slash');
+                }
+            });
+            
+            // Prevent the form from submitting when clicking the toggle button
+            togglePassword.addEventListener('mousedown', function(e) {
+                e.preventDefault();
+            });
+        });
+    </script>
+</body>
+</html>

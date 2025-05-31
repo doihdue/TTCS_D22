@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DMD - Hạt Dinh Dưỡng, Trái Cây Sấy, Nguyên Liệu Làm Bánh</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+    <style>
+        /* Tùy chỉnh nhỏ cho pagination của DataTables nếu cần */
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            padding: 0.3em 0.8em;
+        }
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+            background: #0d6efd;
+            color: white !important;
+            border-color: #0d6efd;
+        }
+        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+            background: #e9ecef;
+            border-color: #dee2e6;
+        }
+    </style>
+</head>
+<body>
+<!-- Import Header Fragment -->
+<div th:replace="~{fragments/header :: header}"></div>
+
+    <!-- Page Header -->
+    <section class="page-header py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h1 class="fw-bold" id="categoryTitle">SẢN PHẨM</h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb justify-content-center">
+                            <li class="breadcrumb-item"><a th:href="@{/}">Trang chủ</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Sản phẩm</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products-section py-5">
+        <div class="container">
+            <div class="row">
+                <!-- Sidebar -->
+                <div class="col-lg-3 mb-4">
+                    <div class="card border-0 shadow-sm mb-4">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0">Danh Mục Sản Phẩm</h5>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <a th:href="@{/san-pham1?category=Hạt Dinh Dưỡng}" class="text-decoration-none d-block category-link" data-category="hat-dinh-duong">Hạt Dinh Dưỡng</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <a th:href="@{/san-pham1?category=Trái Cây Sấy}" class="text-decoration-none d-block category-link" data-category="trai-cay-say">Trái Cây Sấy</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <a th:href="@{/san-pham1?category=Nguyên Liệu Làm Bánh}" class="text-decoration-none d-block category-link" data-category="nguyen-lieu-lam-banh">Nguyên Liệu Làm Bánh</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="card border-0 shadow-sm mb-4">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0">Lọc Theo Giá</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <input type="range" class="form-range" id="priceRange" min="0" max="500000" step="10000">
+                                <div class="d-flex justify-content-between">
+                                    <span>0đ</span>
+                                    <span id="priceValue">250.000đ</span>
+                                    <span>500.000đ</span>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary w-100" id="filterPrice">Áp dụng</button>
+                        </div>
+                    </div>
+
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0">Sản Phẩm Nổi Bật</h5>
+                        </div>
+                        <div class="card-body" th:if="${featuredProducts != null and !featuredProducts.isEmpty()}">
+                            <!-- Lặp qua danh sách sản phẩm nổi bật -->
+                            <div class="featured-product mb-3" th:each="product : ${featuredProducts}">
+                                <div class="row g-0">
+                                    <div class="col-4">
+                                        <!-- Ảnh sản phẩm động -->
+                                        <a th:href="@{/product/{id}(id=${product.productID})}"> <!-- Link đến chi tiết sản phẩm -->
+                                            <img th:src="${product.linkImage}" class="img-fluid rounded" th:alt="${product.productName}">
+                                        </a>
+                                    </div>
+                                    <div class="col-8 ps-3">
+                                        <!-- Tên sản phẩm động -->
+                                        <h6 class="mb-1">
+                                            <a th:href="@{/product/{id}(id=${product.productID})}" class="text-decoration-none text-dark" th:text="${product.productName}">Tên Sản Phẩm</a>
+                                        </h6>
+                                        <!-- Giá sản phẩm động -->
+                                        <p class="text-danger mb-0"
+                                           th:text="${#numbers.formatDecimal(product.price, 0, 'POINT', 0, 'COMMA')} + 'đ'">
+                                            180.000đ
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Hiển thị nếu không có sản phẩm nổi bật -->
+                        <div class="card-body" th:if="${featuredProducts == null or featuredProducts.isEmpty()}">
+                            <p class="text-center">Hiện chưa có sản phẩm nổi bật nào.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Products -->
+                <div class="col-lg-9">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div>
+                            <!-- Span này sẽ được JavaScript cập nhật -->
+                            <span id="paginationInfoText">Hiển thị 1-12 của 36 sản phẩm</span>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <!-- BỎ QUA PHẦN SẮP XẾP NÀY VÌ BẠN CHỈ CẦN PHÂN TRANG -->
+                            <!--
+                            <label for="sortOrder" class="me-2">Sắp xếp theo:</label>
+                            <select class="form-select form-select-sm" id="sortOrder">
+                                <option value="default">Mặc định</option>
+                                <option value="price-asc">Giá: Thấp đến cao</option>
+                                <option value="price-desc">Giá: Cao đến thấp</option>
+                                <option value="name-asc">Tên: A-Z</option>
+                                <option value="name-desc">Tên: Z-A</option>
+                            </select>
+                            -->
+                        </div>
+                    </div>
+
+                    <div class="row" id="productContainer">
+                        <!--
+                            Thymeleaf sẽ render các sản phẩm ở đây LẦN ĐẦU TIÊN.
+                            JavaScript sẽ trích xuất dữ liệu từ các data-* attributes.
+                            Sau đó, JS sẽ xóa các card này và render lại dựa trên DataTables.
+                        -->
+                        <div class="col-md-3 mb-4 product-item-source"
+                             th:each="product : ${productDtoList}"
+                             th:data-id="${product.productID}"
+                             th:data-name="${product.productName}"
+                             th:data-price="${product.price}"
+                             th:data-image="@{${product.linkImage}}"
+                             th:data-url="@{/product/{id}(id=${product.productID})}"
+                             th:data-addtocart-url="@{/add-to-cart}">
+                            <!-- Cấu trúc card gốc được giữ lại -->
+                            <div class="card product-card h-100">
+                                <img th:src="@{${product.linkImage}}" class="card-img-top" alt="Product Image">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title" th:text="${product.productName}"></h5>
+                                    <p class="card-text text-danger fw-bold" th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + '₫'"></p>
+                                    <a th:href="@{/product/{id}(id=${product.productID})}" class="btn btn-sm btn-outline-primary">Chi tiết</a>
+                                    <!-- Nút thêm vào giỏ gốc, không xử lý AJAX ở đây -->
+                                    <form th:action="@{/add-to-cart}" method="post" class="d-inline">
+                                        <input type="hidden" name="productId" th:value="${product.productID}">
+                                        <input type="hidden" name="quantity" value="1">
+                                        <button type="submit" class="btn btn-sm btn-primary">
+                                            <i class="fas fa-shopping-cart"></i> Thêm vào giỏ
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Nếu productDtoList rỗng, hiển thị thông báo -->
+                        <div class="col-12 text-center" th:if="${#lists.isEmpty(productDtoList)}">
+                            <p>Không có sản phẩm nào để hiển thị.</p>
+                        </div>
+                    </div>
+
+                    <!-- Bảng ẩn mà DataTables sẽ sử dụng để quản lý dữ liệu cho phân trang -->
+                    <table id="hiddenProductsTable" class="table d-none">
+                        <thead>
+                        <tr>
+                            <!-- Các cột này chỉ cần thiết để DataTables có dữ liệu để làm việc -->
+                            <!-- Nội dung thực tế của chúng không quan trọng bằng việc có đủ số cột -->
+                            <th>DataColumn</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+
+                    <!-- Pagination: DataTables sẽ tự tạo và JS sẽ đặt vào đây -->
+                    <nav aria-label="Page navigation" class="mt-4">
+                        <div id="dataTablePaginationContainer" class="d-flex justify-content-center">
+                            <!-- Pagination của DataTables sẽ được chèn vào đây -->
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Import Footer Fragment -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+
+<!-- Import Header Script -->
+    <div th:replace="~{fragments/header :: header-script}"></div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- jQuery (DataTables yêu cầu) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <!-- DataTables Bootstrap 5 JS (cho styling tích hợp) -->
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+
+    <script th:inline="javascript">
+        $(document).ready(function() {
+            const productContainer = $('#productContainer');
+            const paginationInfoText = $('#paginationInfoText');
+            const initialProductSources = $('.product-item-source');
+            let allProductsData = []; // Mảng chứa dữ liệu trích xuất
+
+            // 1. Trích xuất dữ liệu sản phẩm từ các div đã render bởi Thymeleaf
+            initialProductSources.each(function() {
+                const productEl = $(this);
+                // Lưu trữ toàn bộ thông tin cần thiết để render lại card
+                allProductsData.push({
+                    id: productEl.data('id'),
+                    name: productEl.data('name'),
+                    price: parseFloat(productEl.data('price')), // Chuyển giá thành số nếu cần
+                    image: productEl.data('image'),
+                    url: productEl.data('url'),
+                    addToCartUrl: productEl.data('addtocart-url')
+                    // Không cần originalIndex nếu không dùng cho sắp xếp mặc định
+                });
+            });
+
+            // Hàm format giá tiền (giữ lại nếu cần cho việc render card)
+            function formatPrice(price) {
+                return new Intl.NumberFormat('vi-VN', { style: 'decimal' }).format(price);
+            }
+
+            // Hàm tạo HTML cho một card sản phẩm (giữ lại để render)
+            function createProductCardHTML(product) {
+                return `
+                <div class="col-md-3 mb-4">
+                    <div class="card product-card h-100">
+                        <img src="${product.image}" class="card-img-top" alt="${product.name}">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">${product.name}</h5>
+                            <p class="card-text text-danger fw-bold">${formatPrice(product.price)}₫</p>
+                            <a href="${product.url}" class="btn btn-sm btn-outline-primary">Chi tiết</a>
+                            <form action="${product.addToCartUrl}" method="post" class="d-inline">
+                                <input type="hidden" name="productId" value="${product.id}">
+                                <input type="hidden" name="quantity" value="1">
+                                <button type="submit" class="btn btn-sm btn-primary">
+                                    <i class="fas fa-shopping-cart"></i> Thêm vào giỏ
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            `;
+            }
+
+            if (allProductsData.length === 0) {
+                paginationInfoText.text('Không có sản phẩm nào.');
+                if (productContainer.find('.product-item-source').length === 0 && !productContainer.find('.text-center p').length) {
+                    productContainer.html('<div class="col-12 text-center"><p>Không có sản phẩm nào để hiển thị.</p></div>');
+                }
+                $('#dataTablePaginationContainer').empty();
+                return;
+            }
+
+            const hiddenTable = $('#hiddenProductsTable').DataTable({
+                data: allProductsData.map(p => [p]),
+                columns: [ { title: "ProductData", visible: false } ],
+                paging: true,
+                pageLength: 8,
+                lengthChange: false,
+                searching: false,
+                info: false, // Tắt info mặc định của DataTables
+                ordering: false,
+                dom: '<"row"<"col-sm-12"t>><"row"<"col-sm-12"p>>',
+                language: { /* ... */ },
+                drawCallback: function(settings) {
+                    const api = this.api();
+                    const pageInfo = api.page.info();
+
+                    productContainer.empty();
+                    const currentPageDataObjects = api.rows({ page: 'current' }).data().toArray().map(row => row[0]);
+
+                    if (currentPageDataObjects.length > 0) {
+                        currentPageDataObjects.forEach(productObject => {
+                            productContainer.append(createProductCardHTML(productObject));
+                        });
+                    } else { // Xử lý trường hợp không có sản phẩm cho trang hoặc không có sản phẩm nào cả
+                        productContainer.html('<div class="col-12 text-center"><p>Không có sản phẩm nào để hiển thị.</p></div>');
+                    }
+
+                    // CẬP NHẬT LẠI THÔNG TIN CHO SPAN
+                    if (pageInfo.recordsTotal > 0) {
+                        paginationInfoText.text(`Hiển thị ${pageInfo.start + 1}-${pageInfo.end} của ${pageInfo.recordsTotal} sản phẩm`);
+                    } else {
+                        paginationInfoText.text('Không có sản phẩm nào.');
+                    }
+
+                    const dtPaginationWrapper = $(this).closest('.dataTables_wrapper');
+                    const dtPagination = dtPaginationWrapper.find('.dataTables_paginate');
+                    $('#dataTablePaginationContainer').append(dtPagination);
+                    dtPagination.addClass('d-flex justify-content-center');
+                    rebindEvents();
+                }
+            });
+
+        });
+    </script>
+    <!-- Custom JavaScript -->
+    <script th:src="@{/js/script.js}"></script>
+</body>
+</html>

@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Thêm Sản Phẩm</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- CSS Tùy chỉnh -->
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .sidebar {
+            background-color: #212529;
+            color: #fff;
+            min-height: 100vh;
+            position: fixed;
+            width: 250px;
+        }
+        .sidebar .nav-link {
+            color: rgba(255, 255, 255, 0.75);
+            padding: 0.75rem 1rem;
+            border-radius: 0.25rem;
+            margin: 0.2rem 0;
+        }
+        .sidebar .nav-link:hover {
+            color: #fff;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .sidebar .nav-link.active {
+            color: #fff;
+            background-color: #0d6efd;
+        }
+        .sidebar .nav-link i {
+            margin-right: 0.5rem;
+        }
+        .main-content {
+            margin-left: 250px;
+            padding: 2rem;
+        }
+        .card {
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            margin-bottom: 1.5rem;
+        }
+        .preview-image {
+            width: 100%;
+            height: 200px;
+            object-fit: contain;
+            border: 1px solid #dee2e6;
+            border-radius: 0.25rem;
+            background-color: #f8f9fa;
+        }
+        .thumbnail-preview {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border: 1px solid #dee2e6;
+            border-radius: 0.25rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .thumbnail-container {
+            position: relative;
+            display: inline-block;
+        }
+        .remove-btn {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background-color: #dc3545;
+            color: white;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .image-upload-container {
+            border: 2px dashed #dee2e6;
+            padding: 1.5rem;
+            text-align: center;
+            border-radius: 0.25rem;
+            background-color: #f8f9fa;
+            margin-bottom: 1rem;
+        }
+        .image-upload-container:hover {
+            border-color: #0d6efd;
+        }
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 100%;
+                position: relative;
+                min-height: auto;
+            }
+            .main-content {
+                margin-left: 0;
+            }
+            .sidebar-nav {
+                display: flex;
+                flex-wrap: wrap;
+            }
+            .sidebar-nav .nav-item {
+                width: auto;
+            }
+        }
+        .navbar-mobile {
+            display: none;
+        }
+        @media (max-width: 992px) {
+            .navbar-mobile {
+                display: block;
+            }
+            .sidebar {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Thanh điều hướng cho thiết bị di động -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-mobile">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Quản Trị Hệ Thống</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" th:href="@{/admin/dashboard}"><i class="fas fa-tachometer-alt"></i> Tổng Quan</a>
+                    </li>
+                    <li class="nav-item">
+                        <a th:href="@{/admin-product}" class="nav-link active">
+                            <i class="fas fa-box"></i> Sản Phẩm
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a th:href="@{/orders}" class="nav-link">
+                            <i class="fas fa-shopping-cart"></i> Đơn Hàng
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a th:href="@{/customers}" class="nav-link">
+                            <i class="fas fa-users"></i> Khách Hàng
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-cog"></i> Cài Đặt</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/LoginUser}"><i class="fas fa-sign-out-alt"></i> Đăng Xuất</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Thanh bên -->
+    <div class="sidebar">
+        <div class="d-flex flex-column p-3">
+            <a href="#" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                <i class="fas fa-store-alt fs-4 me-2"></i>
+                <span class="fs-4">Quản Trị Hệ Thống</span>
+            </a>
+            <hr>
+            <ul class="nav nav-pills flex-column mb-auto sidebar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/admin/dashboard}">
+                        <i class="fas fa-tachometer-alt"></i> Tổng Quan
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/admin-product}" class="nav-link active">
+                        <i class="fas fa-box"></i> Sản Phẩm
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/orders}" class="nav-link">
+                        <i class="fas fa-shopping-cart"></i> Đơn Hàng
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/customers}" class="nav-link">
+                        <i class="fas fa-users"></i> Khách Hàng
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-cog"></i> Cài Đặt
+                    </a>
+                </li>
+            </ul>
+            <hr>
+            <a th:href="@{/LoginUser}" class="nav-link text-white">
+                <i class="fas fa-sign-out-alt"></i> Đăng Xuất
+            </a>
+        </div>
+    </div>
+
+    <!-- Nội dung chính -->
+    <div class="main-content">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="h2">Thêm Sửa Sản Phẩm</h1>
+                <p class="text-muted">Nhập thông tin chi tiết về sản phẩm</p>
+            </div>
+            <a th:href="@{/admin-product}" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left"></i> Quay Lại
+            </a>
+        </div>
+        <form th:action="@{/add-product}" th:object="${product}" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+            <div class="row">
+                <!-- Cột trái - Hình ảnh -->
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">Hình Ảnh Sản Phẩm</h5>
+                        </div>
+                        <div class="card-body">
+                            <!-- Tải lên hình ảnh chính -->
+                            <div class="mb-4">
+                                <label class="form-label">Hình ảnh chính</label>
+                                <div class="image-upload-container" id="mainImageContainer">
+                                    <img id="mainImagePreview" src="https://via.placeholder.com/400x300?text=Chọn+Ảnh+Chính" class="preview-image mb-3">
+                                    <div id="mainImageName" class="small text-muted mb-2"></div>
+                                    <div class="d-flex justify-content-center">
+                                        <label for="mainImageInput" class="btn btn-primary">
+                                            <i class="fas fa-upload me-2"></i>Chọn Ảnh
+                                        </label>
+                                    </div>
+                                    <input type="file" id="mainImageInput" class="d-none" accept="image/*" onchange="uploadImage(event)">
+                                </div>
+                            </div>
+
+                            <!-- Tải lên hình ảnh bổ sung -->
+                            <div>
+                                <label class="form-label">Hình ảnh bổ sung</label>
+                                <div class="image-upload-container" id="additionalImagesContainer">
+                                    <div id="thumbnailPreviews" class="d-flex flex-wrap mb-3"></div>
+                                    <div class="d-flex justify-content-center">
+                                        <label for="additionalImagesInput" class="btn btn-outline-primary">
+                                            <i class="fas fa-images me-2"></i>Thêm Ảnh
+                                        </label>
+                                    </div>
+                                    <input type="file" id="additionalImagesInput" class="d-none" accept="image/*" multiple onchange="uploadAdditionalImages(event)">
+                                </div>
+                            </div>
+
+                            <!-- Input ẩn để lưu URL ảnh chính -->
+                            <input type="hidden" th:field="*{linkImage}" id="mainImageUrl">
+                        </div>
+                    </div>
+                </div>
+
+                <input type="hidden" th:field="*{productID}" />
+                <!-- Cột phải - Thông tin sản phẩm -->
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">Thông Tin Cơ Bản</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label class="form-label">Tên sản phẩm</label>
+                                <input type="text" th:field="*{productName}" class="form-control" required>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Danh mục</label>
+                                    <select th:field="*{categoryId}" class="form-select" required>
+                                        <option value="" disabled>Chọn danh mục</option>
+                                        <option value="1">Hạt Dinh Dưỡng</option>
+                                        <option value="2">Trái Cây Sấy</option>
+                                        <option value="3">Nguyên Liệu Làm Bánh</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Số lượng trong kho</label>
+                                    <input type="number" th:field="*{stock}" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <label class="form-label">Giá (VNĐ)</label>
+                                    <input type="number" th:field="*{price}" class="form-control" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">Giá cũ (VNĐ)</label>
+                                    <input type="number" th:field="*{oldPrice}" class="form-control">
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">Voucher (%)</label>
+                                    <input type="number" th:field="*{voucherPrice}" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Mô tả ngắn</label>
+                                <textarea th:field="*{decriptionShort}" class="form-control" rows="3" required></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Thông tin chi tiết -->
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">Thông Tin Chi Tiết</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Xuất xứ</label>
+                                    <input type="text" th:field="*{xuatXu}" class="form-control">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Khối lượng/Dung tích</label>
+                                    <input type="text" th:field="*{dungtich}" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Hạn sử dụng</label>
+                                    <input type="text" th:field="*{hanSudung}" class="form-control">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Bảo quản</label>
+                                    <input type="text" th:field="*{baoquan}" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Mô tả đầy đủ</label>
+                                <textarea th:field="*{desciptionDetail}" class="form-control" rows="5"></textarea>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Lợi ích sản phẩm</label>
+                                <textarea th:field="*{benefitProduct}" class="form-control" rows="5" placeholder="Mỗi dòng là một lợi ích"></textarea>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Thông tin dinh dưỡng</label>
+                                <textarea th:field="*{thongtindinhduong}" class="form-control" rows="5" placeholder="Tên: Giá trị"></textarea>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="fas fa-save me-2"></i>Lưu Sản Phẩm
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- JavaScript tùy chỉnh -->
+    <script>
+        // Hàm upload ảnh chính lên Cloudinary
+        function uploadImage(event) {
+            let file = event.target.files[0];
+            if (!file) {
+                alert("Vui lòng chọn một ảnh!");
+                return;
+            }
+
+            let formData = new FormData();
+            formData.append("file", file);
+            formData.append("upload_preset", "shopEcommerce");  // Thay thế với preset Cloudinary của bạn
+
+            // Gửi ảnh lên Cloudinary
+            fetch("https://api.cloudinary.com/v1_1/dodaeo6wb/image/upload", {
+                method: "POST",
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.secure_url) {
+                        // Hiển thị ảnh tải lên thành công
+                        document.getElementById("mainImagePreview").src = data.secure_url;
+                        // Lưu URL ảnh vào input ẩn hoặc cơ sở dữ liệu
+                        document.getElementById("mainImageUrl").value = data.secure_url;
+                        alert("Upload thành công!");
+                    } else {
+                        alert("Upload thất bại! Xem lỗi trong console.");
+                        console.error("Lỗi upload:", data);
+                    }
+                })
+                .catch(error => console.error("Lỗi khi upload ảnh:", error));
+        }
+
+        // Hàm upload hình ảnh bổ sung lên Cloudinary
+        function uploadAdditionalImages(event) {
+            let files = event.target.files;
+            if (!files.length) {
+                alert("Vui lòng chọn một hoặc nhiều ảnh!");
+                return;
+            }
+
+            for (let i = 0; i < files.length; i++) {
+                let file = files[i];
+                let formData = new FormData();
+                formData.append("file", file);
+                formData.append("upload_preset", "shopEcommerce");  // Thay thế với preset Cloudinary của bạn
+
+                // Gửi ảnh bổ sung lên Cloudinary
+                fetch("https://api.cloudinary.com/v1_1/dodaeo6wb/image/upload", {
+                    method: "POST",
+                    body: formData
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.secure_url) {
+                            // Tạo preview cho mỗi ảnh bổ sung
+                            let thumbnail = document.createElement("img");
+                            thumbnail.src = data.secure_url;
+                            thumbnail.classList.add("thumbnail-preview");
+                            document.getElementById("thumbnailPreviews").appendChild(thumbnail);
+                            // Lưu URL ảnh vào cơ sở dữ liệu hoặc một input ẩn nếu cần
+                        } else {
+                            console.error("Lỗi upload ảnh bổ sung:", data);
+                        }
+                    })
+                    .catch(error => console.error("Lỗi khi upload ảnh bổ sung:", error));
+            }
+        }
+    </script>
+</body>
+</html>
+

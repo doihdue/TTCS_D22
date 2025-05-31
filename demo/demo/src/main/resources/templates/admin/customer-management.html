@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Quản Lý Khách Hàng</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- CSS Tùy chỉnh -->
+  <style>
+    body {
+      background-color: #f8f9fa;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .sidebar {
+      background-color: #212529;
+      color: #fff;
+      min-height: 100vh;
+      position: fixed;
+      width: 250px;
+    }
+    .sidebar .nav-link {
+      color: rgba(255, 255, 255, 0.75);
+      padding: 0.75rem 1rem;
+      border-radius: 0.25rem;
+      margin: 0.2rem 0;
+    }
+    .sidebar .nav-link:hover {
+      color: #fff;
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    .sidebar .nav-link.active {
+      color: #fff;
+      background-color: #0d6efd;
+    }
+    .sidebar .nav-link i {
+      margin-right: 0.5rem;
+    }
+    .main-content {
+      margin-left: 250px;
+      padding: 2rem;
+    }
+    .card {
+      box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+      margin-bottom: 1.5rem;
+    }
+    .table-responsive {
+      overflow-x: auto;
+    }
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .customer-status {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 5px;
+    }
+    .status-active {
+      background-color: #28a745;
+    }
+    .status-inactive {
+      background-color: #dc3545;
+    }
+    @media (max-width: 992px) {
+      .sidebar {
+        width: 100%;
+        position: relative;
+        min-height: auto;
+      }
+      .main-content {
+        margin-left: 0;
+      }
+      .sidebar-nav {
+        display: flex;
+        flex-wrap: wrap;
+      }
+      .sidebar-nav .nav-item {
+        width: auto;
+      }
+    }
+    .navbar-mobile {
+      display: none;
+    }
+    @media (max-width: 992px) {
+      .navbar-mobile {
+        display: block;
+      }
+      .sidebar {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+<!-- Thanh điều hướng cho thiết bị di động -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-mobile">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Quản Trị Hệ Thống</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/admin/dashboard}"><i class="fas fa-tachometer-alt"></i> Tổng Quan</a>
+        </li>
+        <li class="nav-item">
+          <a th:href="@{/admin-product}" class="nav-link ">
+            <i class="fas fa-box"></i> Sản Phẩm
+          </a>
+        </li>
+        <li class="nav-item">
+          <a th:href="@{/orders}" class="nav-link">
+            <i class="fas fa-shopping-cart"></i> Đơn Hàng
+          </a>
+        </li>
+        <li class="nav-item">
+          <a th:href="@{/customers}" class="nav-link active">
+            <i class="fas fa-users"></i> Khách Hàng
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#"><i class="fas fa-cog"></i> Cài Đặt</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/LoginUser}"><i class="fas fa-sign-out-alt"></i> Đăng Xuất</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Thanh bên -->
+<div class="sidebar">
+  <div class="d-flex flex-column p-3">
+    <a href="#" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+      <i class="fas fa-store-alt fs-4 me-2"></i>
+      <span class="fs-4">Quản Trị Hệ Thống</span>
+    </a>
+    <hr>
+    <ul class="nav nav-pills flex-column mb-auto sidebar-nav">
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/admin/dashboard}">
+          <i class="fas fa-tachometer-alt"></i> Tổng Quan
+        </a>
+      </li>
+      <li class="nav-item">
+        <a th:href="@{/admin-product}" class="nav-link ">
+          <i class="fas fa-box"></i> Sản Phẩm
+        </a>
+      </li>
+      <li class="nav-item">
+        <a th:href="@{/orders}" class="nav-link">
+          <i class="fas fa-shopping-cart"></i> Đơn Hàng
+        </a>
+      </li>
+      <li class="nav-item">
+        <a th:href="@{/customers}" class="nav-link active">
+          <i class="fas fa-users"></i> Khách Hàng
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="#" class="nav-link">
+          <i class="fas fa-cog"></i> Cài Đặt
+        </a>
+      </li>
+    </ul>
+    <hr>
+    <a th:href="@{/LoginUser}" class="nav-link text-white">
+      <i class="fas fa-sign-out-alt"></i> Đăng Xuất
+    </a>
+  </div>
+</div>
+
+<!-- Nội dung chính -->
+<div class="main-content">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h1 class="h2">Quản Lý Khách Hàng</h1>
+      <p class="text-muted">Quản lý thông tin và hoạt động của khách hàng</p>
+    </div>
+    <div>
+      <button class="btn btn-outline-primary me-2">
+        <i class="fas fa-file-export me-2"></i>Xuất Excel
+      </button>
+      <button class="btn btn-outline-secondary">
+        <i class="fas fa-envelope me-2"></i>Gửi Email
+      </button>
+    </div>
+  </div>
+
+  <!-- Thẻ thống kê -->
+  <div class="row mb-4">
+    <div class="col-md-3">
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-subtitle mb-2 text-muted">Tổng Khách Hàng</h6>
+          <h2 class="card-title" th:text="${totalCustomers}">256</h2>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-subtitle mb-2 text-muted">Khách Hàng Mới (30 ngày)</h6>
+          <h2 class="card-title" th:text="${newCustomers}">42</h2>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-subtitle mb-2 text-muted">Khách Hàng Thân Thiết</h6>
+          <h2 class="card-title" th:text="${loyalCustomers}">78</h2>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-subtitle mb-2 text-muted">Giá Trị Trung Bình</h6>
+          <h2 class="card-title" th:text="${averageOrderValue}">520K</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bảng khách hàng -->
+  <div class="card shadow mb-4">
+    <div class="card-header py-3">
+      <h6 class="m-0 font-weight-bold text-primary">Danh Sách Khách Hàng</h6>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle" id="customerDataTable" width="100%" cellspacing="0">
+          <thead class="table-light">
+          <tr>
+            <!-- Giữ nguyên các cột như bạn đã có, KHÔNG thêm cột ID trừ khi bạn thực sự muốn -->
+            <th scope="col">Khách hàng</th>
+            <th scope="col">Email</th>
+            <th scope="col">Số điện thoại</th>
+            <th scope="col">Ngày đăng ký</th>
+            <th scope="col">Số đơn hàng</th>
+            <th scope="col">Tổng chi tiêu</th>
+            <th scope="col">Trạng thái</th>
+            <th scope="col" class="text-end">Thao tác</th>
+          </tr>
+          </thead>
+          <tbody>
+          <!-- Lặp qua danh sách khách hàng -->
+          <tr th:each="customer : ${customers}">
+            <td>
+              <div class="d-flex align-items-center">
+                <div class="rounded-circle me-3 bg-secondary d-flex align-items-center justify-content-center"
+                     style="width: 50px; height: 50px; font-size: 1.5rem;">
+                  <i class="fas fa-user text-white"></i>
+                </div>
+                <div>
+                  <div class="fw-bold" th:text="${customer.fname + ' ' + customer.lname}">Nguyễn Văn A</div>
+                  <!-- Giữ nguyên cách hiển thị địa chỉ như ban đầu của bạn -->
+                  <small class="text-muted" th:if="${customer.addresses}">Hà Nội</small>
+                </div>
+              </div>
+            </td>
+            <td th:text="${customer.email}">example@gmail.com</td>
+            <td th:text="${customer.phone}">0987654321</td>
+            <!-- Kiểm tra null cho registrationDate trước khi format -->
+            <td th:text="${customer.registrationDate != null ? #dates.format(customer.registrationDate, 'dd/MM/yyyy') : 'N/A'}">01/01/2023</td>
+            <!-- Hiển thị 0 nếu orderCount là null -->
+            <td th:text="${customer.orderCount != null ? customer.orderCount : 0}">5</td>
+            <!-- Hiển thị 0₫ nếu totalSpent là null -->
+            <td class="fw-bold" th:text="${customer.totalSpent != null ? #numbers.formatDecimal(customer.totalSpent, 0, 'COMMA', 0, 'POINT') + '₫' : '0₫'}">1,500,000₫</td>
+            <td>
+              <span th:if="${customer.active}" class="badge bg-success">Đang hoạt động</span>
+              <span th:unless="${customer.active}" class="badge bg-danger">Không hoạt động</span>
+            </td>
+            <td class="text-end">
+              <div class="dropdown">
+                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                  <i class="fas fa-ellipsis-v"></i>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <li><a class="dropdown-item" th:href="@{/customer-detail/{id}(id=${customer.id})}">
+                    <i class="fas fa-eye me-2"></i>Chi tiết</a>
+                  </li>
+                  <li><a class="dropdown-item" th:href="@{/customer-orders/{id}(id=${customer.id})}">
+                    <i class="fas fa-shopping-cart me-2"></i>Xem đơn hàng</a>
+                  </li>
+                  <li><a class="dropdown-item" href="#" data-bs-toggle="modal" th:attr="data-bs-target='#sendEmailModal-' + ${customer.id}">
+                    <i class="fas fa-envelope me-2"></i>Gửi email</a>
+                  </li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li>
+                    <a th:if="${customer.active}" class="dropdown-item text-danger" href="#" data-bs-toggle="modal" th:attr="data-bs-target='#deactivateModal-' + ${customer.id}">
+                      <i class="fas fa-ban me-2"></i>Vô hiệu hóa
+                    </a>
+                    <a th:unless="${customer.active}" class="dropdown-item text-success" href="#" data-bs-toggle="modal" th:attr="data-bs-target='#activateModal-' + ${customer.id}">
+                      <i class="fas fa-check-circle me-2"></i>Kích hoạt
+                    </a>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- Modal gửi email -->
+              <div class="modal fade" th:id="${'sendEmailModal-' + customer.id}" tabindex="-1">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Gửi email cho khách hàng</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form th:action="@{/send-email}" method="post">
+                      <div class="modal-body text-start">
+                        <input type="hidden" name="customerId" th:value="${customer.id}">
+                        <div class="mb-3">
+                          <label th:for="${'emailSubject-' + customer.id}" class="form-label">Tiêu đề</label>
+                          <input type="text" class="form-control" th:id="${'emailSubject-' + customer.id}" name="subject" required>
+                        </div>
+                        <div class="mb-3">
+                          <label th:for="${'emailContent-' + customer.id}" class="form-label">Nội dung</label>
+                          <textarea class="form-control" th:id="${'emailContent-' + customer.id}" name="content" rows="5" required></textarea>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                        <button type="submit" class="btn btn-primary">Gửi</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Modal vô hiệu hóa tài khoản -->
+              <div class="modal fade" th:id="${'deactivateModal-' + customer.id}" tabindex="-1">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Xác nhận vô hiệu hóa tài khoản</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form th:action="@{/deactivate-customer}" method="post">
+                      <div class="modal-body text-start">
+                        <input type="hidden" name="customerId" th:value="${customer.id}">
+                        <p>Bạn có chắc chắn muốn vô hiệu hóa tài khoản của khách hàng <strong th:text="${customer.fname + ' ' + customer.lname}">Nguyễn Văn A</strong>?</p>
+                        <p class="text-danger">Lưu ý: Khách hàng sẽ không thể đăng nhập hoặc đặt hàng cho đến khi tài khoản được kích hoạt lại.</p>
+                        <div class="mb-3">
+                          <label th:for="${'deactivateReason-' + customer.id}" class="form-label">Lý do (tùy chọn)</label>
+                          <textarea class="form-control" th:id="${'deactivateReason-' + customer.id}" name="reason" rows="3"></textarea>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                        <button type="submit" class="btn btn-danger">Xác nhận</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Modal kích hoạt tài khoản (bạn cần tạo nội dung nếu muốn dùng) -->
+              <div class="modal fade" th:id="${'activateModal-' + customer.id}" tabindex="-1">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Xác nhận kích hoạt tài khoản</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form th:action="@{/activate-customer}" method="post"> <!-- Thay đổi action cho phù hợp -->
+                      <div class="modal-body text-start">
+                        <input type="hidden" name="customerId" th:value="${customer.id}">
+                        <p>Bạn có chắc chắn muốn kích hoạt lại tài khoản của khách hàng <strong th:text="${customer.fname + ' ' + customer.lname}">Nguyễn Văn A</strong>?</p>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                        <button type="submit" class="btn btn-success">Xác nhận kích hoạt</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+            </td>
+          </tr>
+          <!-- Trường hợp không có khách hàng -->
+          <tr th:if="${customers == null || #lists.isEmpty(customers)}">
+            <td colspan="8" class="text-center text-muted py-4"> <!-- Điều chỉnh colspan cho phù hợp -->
+              <i class="fas fa-users-slash fa-2x mb-2"></i><br>
+              Không tìm thấy khách hàng nào.
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- DataTables sẽ tự thêm phân trang, không cần card-footer cho phân trang tĩnh nữa -->
+  </div>
+</div>
+
+<!-- Bootstrap Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Gần cuối thẻ <body> -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+<!-- CSS cho DataTables Bootstrap 5 (trong <head>) -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+
+<script>
+
+  $(document).ready(function() {
+  if ($('#customerDataTable').length) { // Kiểm tra xem bảng có tồn tại không
+  $('#customerDataTable').DataTable({
+  // Tùy chọn ngôn ngữ tiếng Việt (nếu bạn muốn)
+  language: {
+  url: '//cdn.datatables.net/plug-ins/1.11.5/i18n/vi.json'
+  },
+
+  // responsive: true,
+  // paging: true,
+  // searching: true,
+  // ordering: true,
+  // info: true,
+
+  // columnDefs: [
+  //     { orderable: false, targets: -1 }
+  // ]
+  });
+  }
+  });
+</script>
+</body>
+</html>

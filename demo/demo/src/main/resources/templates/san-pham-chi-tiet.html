@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DMD - Hạt Dinh Dưỡng, Trái Cây Sấy, Nguyên Liệu Làm Bánh</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <style>
+        .star-rating {
+            direction: rtl;
+            font-size: 2rem;
+            unicode-bidi: bidi-override;
+            display: inline-flex;
+            gap: 5px;
+        }
+        .star-rating input[type="radio"] {
+            display: none;
+        }
+        .star-rating label {
+            color: #ccc;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .star-rating label:hover,
+        .star-rating label:hover ~ label,
+        .star-rating input[type="radio"]:checked ~ label {
+            color: gold;
+        }
+    </style>
+</head>
+<body>
+<!-- Import Header Fragment -->
+<div th:replace="~{fragments/header :: header}"></div>
+
+    <!-- Breadcrumb -->
+    <section class="breadcrumb-section py-3 bg-light">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a th:href="@{/}">Trang chủ</a></li>
+                    <li class="breadcrumb-item"><a th:href="@{/san-pham}">Sản phẩm</a></li>
+                    <li class="breadcrumb-item">
+                        <a th:href="@{/san-pham1?category={category}(category=${product.categoryName})}" th:text="${product.categoryName}"></a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page" th:text="${product.productName}" id="productName"></li>
+                </ol>
+            </nav>
+        </div>
+    </section>
+
+
+    <!-- Product Detail -->
+    <section class="product-detail py-5" th:data-product-id="${product.productID}">
+        <div class="container">
+            <div class="row">
+                <!-- Product Images -->
+                <div class="col-md-5 mb-4">
+                    <div class="product-image mb-3">
+                        <img th:src="@{${product.linkImage}}" id="mainImage" class="img-fluid rounded" th:alt="${product.productName}">
+                    </div>
+                </div>
+
+                <!-- Product Info -->
+                <div class="col-md-7">
+                    <h1 class="mb-3" th:text="${product.productName}"></h1>
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="text-warning me-2">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <span>(25 đánh giá)</span>
+                    </div>
+                    <!-- Định dạng giá tiền -->
+                    <p class="text-danger fw-bold fs-4 mb-3" th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + '₫'"></p>
+                    <p class="text-muted mb-4">
+                        <del th:text="${#numbers.formatDecimal(product.oldPrice, 0, 'COMMA', 0, 'POINT')} + '₫'"></del>
+                    </p>
+                    <p class="text-muted mb-4">
+                        Voucher của shop
+                        <span class="badge bg-danger ms-2" th:text="${#numbers.formatDecimal(product.voucherPrice, 0, 'COMMA', 0, 'POINT')} + '%'"></span>
+                    </p>
+
+                    <div class="mb-4">
+                        <h5>Mô tả:</h5>
+                        <p th:text="${product.decriptionShort}"></p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h5>Lợi ích:</h5>
+                        <ul>
+                            <li th:text="${product.benefitProduct}"></li>
+                        </ul>
+                    </div>
+
+                    <div class="mb-4">
+                        <h5>Thông tin sản phẩm:</h5>
+                        <table class="table table-bordered">
+                            <tbody>
+                            <tr>
+                                <td width="30%">Xuất xứ</td>
+                                <td th:text="${product.xuatXu}"></td>
+                            </tr>
+                            <tr>
+                                <td>Trọng lượng</td>
+                                <td th:text="${product.dungtich} + ' g'"></td>
+                            </tr>
+                            <tr>
+                                <td>Hạn sử dụng</td>
+                                <td th:text="${product.hanSudung}"></td>
+                            </tr>
+                            <tr>
+                                <td>Bảo quản</td>
+                                <td th:text="${product.baoquan}"></td>
+                            </tr>
+                            <tr>
+                                <td>Danh mục</td>
+                                <td th:text="${product.categoryName != null ? product.categoryName : ''}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="mb-4">
+                        <h5>Số lượng:</h5>
+                        <div class="d-flex align-items-center">
+                            <div class="input-group" style="width: 150px;">
+                                <button class="btn btn-outline-secondary" type="button" id="decreaseQuantity">-</button>
+                                <input type="number" class="form-control text-center" id="quantity" value="1" min="1">
+                                <button class="btn btn-outline-secondary" type="button" id="increaseQuantity">+</button>
+                            </div>
+                            <span class="ms-3 text-muted" th:text="'Còn ' + ${product.stock} + ' sản phẩm'"></span>
+                        </div>
+                    </div>
+
+                    <div class="d-flex mb-4">
+                        <form th:action="@{/add-to-cart}" method="post">
+                            <input type="hidden" name="productId" th:value="${product.productID}">
+                            <input type="hidden" name="quantity" id="cartQuantity">
+                            <button type="submit" class="btn btn-primary me-2" onclick="setQuantity()">
+                                <i class="fas fa-shopping-cart me-2"></i> Thêm vào giỏ hàng
+                            </button>
+                        </form>
+                        <form th:action="@{/add-to-cart}" method="post">
+                            <input type="hidden" name="productId" th:value="${product.productID}">
+                            <input type="hidden" name="quantity" id="buyQuantity">
+                            <input type="hidden" name="redirect" value="checkout">
+                            <button type="submit" class="btn btn-danger" onclick="setBuyQuantity()">
+                                <i class="fas fa-bolt me-2"></i> Mua ngay
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="d-flex align-items-center">
+                        <span class="me-3">Chia sẻ:</span>
+                        <a href="#" class="text-primary me-2"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-info me-2"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-danger me-2"><i class="fab fa-pinterest"></i></a>
+                        <a href="#" class="text-success"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Thêm JavaScript cho các nút số lượng -->
+        <script>
+            function setQuantity() {
+                document.getElementById('cartQuantity').value = document.getElementById('quantity').value;
+            }
+
+            function setBuyQuantity() {
+                document.getElementById('buyQuantity').value = document.getElementById('quantity').value;
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+                // Quantity buttons functionality
+                const decreaseButton = document.getElementById('decreaseQuantity');
+                const increaseButton = document.getElementById('increaseQuantity');
+                const quantityInput = document.getElementById('quantity');
+
+                decreaseButton.addEventListener('click', function() {
+                    const currentValue = parseInt(quantityInput.value);
+                    if (currentValue > 1) {
+                        quantityInput.value = currentValue - 1;
+                    }
+                });
+
+                increaseButton.addEventListener('click', function() {
+                    const currentValue = parseInt(quantityInput.value);
+                    const stock = 10; // Lấy giá trị stock từ Thymeleaf
+                    if (currentValue < stock) {
+                        quantityInput.value = currentValue + 1;
+                    }
+                });
+            });
+        </script>
+    </section>
+
+    <!-- Product Tabs -->
+    <section class="product-tabs py-5 bg-light">
+        <div class="container">
+            <ul class="nav nav-tabs" id="productTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="description-tab" data-bs-toggle="tab" data-bs-target="#description" type="button" role="tab" aria-controls="description" aria-selected="true">Chi tiết sản phẩm</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="nutrition-tab" data-bs-toggle="tab" data-bs-target="#nutrition" type="button" role="tab" aria-controls="nutrition" aria-selected="false">Thông tin dinh dưỡng</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews" type="button" role="tab" aria-controls="reviews" aria-selected="false">Đánh giá </button>
+                </li>
+            </ul>
+            <div class="tab-content p-4 bg-white shadow-sm rounded" id="productTabsContent">
+                <!-- Tab Chi Tiết Sản Phẩm -->
+                <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
+                    <h4 th:text="${product.productName}"></h4>
+                    <p th:text="${product.desciptionDetail}"></p>
+                </div>
+
+                <!-- Tab Thông Tin Dinh Dưỡng -->
+                <div class="tab-pane fade" id="nutrition" role="tabpanel" aria-labelledby="nutrition-tab">
+                    <h4>Thông tin dinh dưỡng (trên 100g)</h4>
+                    <table class="table table-bordered">
+                        <tbody>
+                        <tr>
+                            <td th:text="${product.thongtindinhduong}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Tab Đánh Giá Sản Phẩm -->
+
+                <style>
+                    .review-list-scroll {
+                        max-height: 300px;     /* Chiều cao tối đa của danh sách đánh giá */
+                        overflow-y: auto;      /* Hiện thanh cuộn khi vượt quá */
+                        padding-right: 10px;   /* Tránh đè lên thanh cuộn */
+                        margin-bottom: 20px;   /* Cách xa form bên dưới */
+                    }
+                </style>
+
+                <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
+                    <!-- Danh sách đánh giá với thanh cuộn -->
+                    <div class="review-list-scroll">
+                        <div th:each="review : ${product.reviews}" class="review-item mb-4">
+                            <div class="d-flex align-items-center mb-2">
+                                <div>
+
+                                <h5 class="mb-0" th:text="${review.user.fname} + ' ' + ${review.user.lname}">Tên người nhận</h5>
+                                    <div class="text-warning">
+                                        <span th:text="${review.vote}"></span>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                    <small class="text-muted" th:text="${#dates.format(review.date, 'dd/MM/yyyy')}">Ngày đánh giá</small>
+                                </div>
+                            </div>
+                            <h6 th:text="${review.review}">Nội dung đánh giá</h6>
+                        </div>
+                    </div>
+
+                    <!-- Form thêm đánh giá -->
+                    <form th:action="@{/product/{productId}/add-review(productId=${product.productID})}" method="post">
+                        <div class="mb-3">
+                            <label for="review" class="form-label">Đánh giá của bạn</label>
+                            <textarea class="form-control" id="review" name="review" rows="3" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="vote" class="form-label">Đánh giá sao</label>
+                            <div class="star-rating" id="vote">
+                                <input type="radio" id="star5" name="vote" value="5" required />
+                                <label for="star5">&#9733;</label>
+
+                                <input type="radio" id="star4" name="vote" value="4" />
+                                <label for="star4">&#9733;</label>
+
+                                <input type="radio" id="star3" name="vote" value="3" />
+                                <label for="star3">&#9733;</label>
+
+                                <input type="radio" id="star2" name="vote" value="2" />
+                                <label for="star2">&#9733;</label>
+
+                                <input type="radio" id="star1" name="vote" value="1" />
+                                <label for="star1">&#9733;</label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
+                    </form>
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Related Products -->
+    <section class="related-products py-5">
+    <div class="container">
+        <h2 class="text-center mb-4">SẢN PHẨM LIÊN QUAN</h2>
+        <div class="row" th:if="${relatedProducts != null and !relatedProducts.isEmpty()}">
+            <!-- Lặp qua danh sách sản phẩm liên quan -->
+            <div class="col-md-3 mb-4" th:each="relatedProd : ${relatedProducts}">
+                <div class="card product-card h-100">
+                    <!-- Ảnh sản phẩm động -->
+                    <a th:href="@{/product/{id}(id=${relatedProd.productID})}">
+                        <img th:src="${relatedProd.linkImage}" class="card-img-top" th:alt="${relatedProd.productName}">
+                    </a>
+                    <div class="card-body text-center">
+                        <!-- Tên sản phẩm động -->
+                        <h5 class="card-title">
+                            <a th:href="@{/product/{id}(id=${relatedProd.productID})}" class="text-decoration-none text-dark" th:text="${relatedProd.productName}">Tên Sản Phẩm</a>
+                        </h5>
+                        <!-- Giá sản phẩm động -->
+                        <p class="card-text text-danger fw-bold"
+                           th:text="${#numbers.formatDecimal(relatedProd.price, 0, 'POINT', 0, 'COMMA')} + 'đ'">
+                            160.000đ
+                        </p>
+                        <!-- Nút chi tiết -->
+                        <a th:href="@{/product/{id}(id=${relatedProd.productID})}" class="btn btn-sm btn-outline-primary">Chi tiết</a>
+                        <!-- Nút thêm vào giỏ hàng -->
+                        <button class="btn btn-sm btn-primary add-to-cart"
+                                th:attr="data-id=${relatedProd.productID}, data-name=${relatedProd.productName}, data-price=${#numbers.formatDecimal(relatedProd.price, 1, 0, 'POINT')}">
+                            <i class="fas fa-shopping-cart"></i> Thêm vào giỏ
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Hiển thị nếu không có sản phẩm liên quan -->
+        <div class="row" th:if="${relatedProducts == null or relatedProducts.isEmpty()}">
+            <div class="col-12">
+                <p class="text-center">Không có sản phẩm liên quan nào.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- Import Footer Fragment -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+
+<!-- Import Header Script -->
+    <div th:replace="~{fragments/header :: header-script}"></div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JavaScript -->
+    <script th:src="@{/js/script.js}"></script>
+    <script>
+        function setQuantity() {
+            document.getElementById('cartQuantity').value = document.getElementById('quantity').value;
+        }
+
+        function setBuyQuantity() {
+            document.getElementById('buyQuantity').value = document.getElementById('quantity').value;
+        }
+    </script>
+
+</body>
+</html>

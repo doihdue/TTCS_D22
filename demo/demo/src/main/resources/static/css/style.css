@@ -1,0 +1,483 @@
+
+
+/* Variables */
+:root {
+    --primary: #4a90e2;
+    --primary-dark: #3a7bc8;
+    --secondary: #6c757d;
+    --success: #28a745;
+    --danger: #dc3545;
+    --warning: #ffc107;
+    --info: #17a2b8;
+    --light: #f8f9fa;
+    --dark: #343a40;
+    --white: #ffffff;
+    --body-bg: #f8f9fa;
+    --footer-bg: #4a90e2;
+  }
+  
+  /* General Styles */
+  body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--body-bg);
+    color: #333;
+  }
+  
+  a {
+    text-decoration: none;
+    color: var(--primary);
+    transition: all 0.3s ease;
+  }
+  
+  a:hover {
+    color: var(--primary-dark);
+  }
+  
+  .btn-primary {
+    background-color: var(--primary);
+    border-color: var(--primary);
+  }
+  
+  .btn-primary:hover {
+    background-color: var(--primary-dark);
+    border-color: var(--primary-dark);
+  }
+  
+  .bg-primary {
+    background-color: var(--primary) !important;
+  }
+  
+  .text-primary {
+    color: var(--primary) !important;
+  }
+
+/* CSS cho header cố định */
+.fixed-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  background-color: #fff; /* Đảm bảo header có nền */
+}
+
+/* CSS cho menu active */
+.nav-link.active {
+  color: #0d6efd !important;
+  font-weight: bold;
+  border-bottom: 2px solid #0d6efd;
+}
+
+/* Hiệu ứng khi cuộn */
+.header-scrolled .top-bar {
+  transition: transform 0.3s ease;
+}
+
+/* Thêm padding cho body để tránh nội dung bị che khuất bởi header cố định */
+body {
+  padding-top: 110px; /* Điều chỉnh theo chiều cao của header */
+}
+
+/* Đảm bảo chuyển đổi mượt mà */
+.top-bar {
+  transition: transform 0.3s ease;
+}
+  
+  
+  /* Top Bar */
+  .top-bar {
+    color: var(--white);
+  }
+  
+  .btn-search {
+    background-color: var(--primary-dark);
+    color: var(--white);
+  }
+  
+  .btn-search:hover {
+    background-color: var(--primary);
+    color: var(--white);
+  }
+  
+  /* Navigation */
+  .navbar-light .navbar-nav .nav-link {
+    color: #333;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+  }
+  
+  .navbar-light .navbar-nav .nav-link:hover,
+  .navbar-light .navbar-nav .nav-link.active {
+    color: var(--primary);
+  }
+  
+  /* Hero Banner */
+  .hero-banner {
+    margin-top: 0;
+    position: relative;
+  }
+  
+  .carousel-caption {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    padding: 20px;
+    bottom: 50%;
+    transform: translateY(50%);
+  }
+
+  .carousel-item img {
+    height: 610px;
+  }
+  
+  /* Product Categories */
+  .category-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: none;
+  }
+  
+  .category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Product Cards */
+  .product-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: none;
+  }
+  
+  .product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .product-card .card-img-top {
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  /* Feature Boxes */
+  .feature-box {
+    padding: 20px;
+    border-radius: 10px;
+    background-color: var(--white);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease;
+  }
+  
+  .feature-box:hover {
+    transform: translateY(-5px);
+  }
+  
+  /* Testimonials */
+  .testimonials .card {
+    border: none;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  }
+  
+  /* Footer */
+  .footer {
+    color: var(--white);
+  }
+  
+  .social-links a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.1);
+    transition: background-color 0.3s ease;
+  }
+  
+  .social-links a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+
+
+/* Giả sử bạn đã có biến --white, nếu không hãy thay bằng #fff */
+:root {
+  --white: #ffffff;
+  /* Thêm màu cho nút toggle nếu cần */
+  --primary-color: #007bff; /* Ví dụ */
+}
+
+/* Floating Contact Wrapper */
+.floating-contact-wrapper {
+  position: fixed;
+  bottom: 20px; /* Điều chỉnh vị trí nút chính */
+  left: 20px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column-reverse; /* Để menu options ở trên nút toggle */
+  align-items: flex-end; /* Căn các item sang phải */
+}
+
+/* Nút Toggle Chính */
+.contact-toggle-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--primary-color); /* Hoặc màu bạn muốn */
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
+  font-size: 24px; /* Kích thước icon */
+  margin-top: 10px; /* Khoảng cách với menu options nếu menu mở */
+}
+
+.contact-toggle-btn:hover {
+  background-color: darken(var(--primary-color), 10%); /* Làm màu tối hơn khi hover */
+}
+
+/* Container cho các tùy chọn liên hệ */
+.contact-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-end; /* Căn các item sang phải */
+  /* Các hiệu ứng chuyển động khi hiện/ẩn */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px) scale(0.95);
+  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+}
+
+.contact-options.active {
+  display: flex; /* Hiện khi có class active */
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+/* Style chung cho các nút liên hệ con */
+.contact-option {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  text-decoration: none; /* Bỏ gạch chân link */
+}
+
+.contact-option:hover {
+  transform: scale(1.1); /* Hiệu ứng phóng to nhẹ khi hover */
+}
+
+/* Các style cũ của bạn cho phone, messenger, zalo */
+.phone-btn {
+  background-color: #25d366;
+  position: relative; /* Để phone-number định vị theo */
+}
+
+.phone-btn:hover .phone-number {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+}
+
+.phone-number {
+  position: absolute;
+  left: 60px; /* Cách mép phải của phone-btn 60px */
+  background-color: #25d366;
+  padding: 5px 10px;
+  border-radius: 20px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(10px);
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  font-size: 14px; /* Thêm font-size cho dễ đọc */
+  color: var(--white);
+}
+
+.messenger-btn {
+  background-color: #0084ff;
+}
+
+.zalo-btn {
+  background-color: #0068ff;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+    /* Back to Top Button */
+    .back-to-top {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 40px;
+      height: 40px;
+      background-color: var(--primary);
+      color: var(--white);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      z-index: 1000;
+    }
+    
+    .back-to-top.show {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .back-to-top:hover {
+      background-color: var(--primary-dark);
+      color: var(--white);
+    }
+
+
+/* Simple Chatbot Styles */
+.chatbot-toggle-btn {
+  position: fixed;
+  bottom: 100px;
+  right: 20px;
+  background-color: #4e73df;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: 24px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  z-index: 1050; /* Cao hơn modal Bootstrap một chút */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chatbot-toggle-btn:hover {
+  background-color: #224abe;
+}
+
+.chatbot-container {
+  position: fixed;
+  bottom: 90px; /* Cách nút toggle một chút */
+  right: 20px;
+  width: 350px;
+  max-width: 90%;
+  height: 450px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  display: none; /* Ẩn ban đầu */
+  flex-direction: column;
+  z-index: 1040; /* Dưới nút toggle khi đóng, nhưng trên nội dung khác */
+  overflow: hidden;
+}
+
+.chatbot-header {
+  background: linear-gradient(to right, #4e73df, #224abe);
+  color: white;
+  padding: 10px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+}
+
+.chatbot-close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.chatbot-messages {
+  flex-grow: 1;
+  padding: 15px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Khoảng cách giữa các tin nhắn */
+}
+
+.message {
+  padding: 8px 12px;
+  border-radius: 18px;
+  max-width: 75%;
+  word-wrap: break-word;
+}
+
+.user-message {
+  background-color: #e9ecef;
+  color: #333;
+  align-self: flex-end; /* Tin nhắn người dùng căn phải */
+  border-bottom-right-radius: 5px;
+}
+.user-message p {
+  margin-bottom: 0;
+}
+
+.bot-message {
+  background-color: #4e73df;
+  color: white;
+  align-self: flex-start; /* Tin nhắn bot căn trái */
+  border-bottom-left-radius: 5px;
+}
+.bot-message p {
+  margin-bottom: 0;
+}
+
+
+.chatbot-input-area {
+  display: flex;
+  padding: 10px;
+  border-top: 1px solid #ddd;
+}
+
+#chatbotInput {
+  flex-grow: 1;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  padding: 8px 15px;
+  margin-right: 10px;
+  outline: none;
+}
+
+#sendChatbotMessage {
+  background-color: #4e73df;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#sendChatbotMessage:hover {
+  background-color: #224abe;
+}
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  

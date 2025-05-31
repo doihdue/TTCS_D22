@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thanh Toán - DMD</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        .payment-method {
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .payment-method:hover {
+            border-color: #adb5bd;
+        }
+        .payment-method.selected {
+            border-color: #0d6efd;
+            background-color: #f8f9fa;
+        }
+        .payment-method img {
+            height: 40px;
+            object-fit: contain;
+        }
+        .qr-code-container {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .qr-code-container.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<!-- Import Header Fragment -->
+<div th:replace="~{fragments/header :: header}"></div>
+
+<!-- Breadcrumb -->
+<section class="breadcrumb-section py-3 bg-light">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a th:href="@{/}">Trang chủ</a></li>
+                <li class="breadcrumb-item"><a th:href="@{/giohang}">Giỏ hàng</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Thanh toán</li>
+            </ol>
+        </nav>
+    </div>
+</section>
+
+<!-- Checkout Section -->
+<section class="checkout-section py-5">
+    <div class="container">
+        <h2 class="mb-4">Thanh toán</h2>
+
+        <div class="row">
+            <!-- Thông tin đơn hàng -->
+            <div class="col-lg-8 mb-4">
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0">Thông tin giao hàng</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="checkoutForm" th:action="@{/place-order}" method="post" >
+
+
+
+                            <div class="mb-3">
+                                <label for="fullName" class="form-label">Họ và tên</label>
+                                <input type="text" class="form-control" id="fullName" name="fullName" th:value="${user.fname + ' ' + user.lname}" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">Số điện thoại</label>
+                                <input type="tel" class="form-control" id="phone" name="phone"
+                                       th:value="${defaultAddress != null ? defaultAddress.sdt : ''}" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" th:value="${user.email}" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="address" class="form-label">Địa chỉ giao hàng</label>
+                                <textarea class="form-control" id="address" name="address" rows="3" required
+                                          th:text="${defaultAddress != null ? defaultAddress.diachi : ''}"></textarea>
+                            </div>
+
+                            <div class="mb-3" th:if="${defaultAddress == null}">
+                                <div class="alert alert-info">
+                                    <i class="fas fa-info-circle me-2"></i> Bạn chưa có địa chỉ mặc định.
+                                    <a th:href="@{/update-profile#addresses}" class="alert-link">Thêm địa chỉ mặc định</a> để thuận tiện cho lần sau.
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="note" class="form-label">Ghi chú đơn hàng (tùy chọn)</label>
+                                <textarea class="form-control" id="note" name="note" rows="2"></textarea>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <!-- Tổng giỏ hàng -->
+            <div class="col-lg-4">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0">Đơn hàng của bạn</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="order-summary">
+                            <div class="order-products mb-3">
+                                <h6 class="mb-3">Sản phẩm</h6>
+                                <div class="product-list">
+                                    <div class="product-item d-flex justify-content-between mb-2" th:each="item : ${orderDetails}">
+                                        <div>
+                                            <span th:text="${item.product[0].productName}"></span>
+                                            <span class="text-muted ms-2" th:text="'x' + ${item.quantity}">x5</span>
+                                        </div>
+                                        <div class="text-end">
+                                            <span class="fw-bold" th:text="${#numbers.formatDecimal(item.totalPrice, 0, 'COMMA', 0, 'POINT')} + '₫'">50,000₫</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr>
+
+                            <div class="order-totals">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Tạm tính:</span>
+                                    <span th:text="${#numbers.formatDecimal(totalPrice, 0, 'COMMA', 0, 'POINT')} + '₫'">50,000₫</span>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Phí vận chuyển:</span>
+                                    <span>Miễn phí</span>
+                                </div>
+                                <hr>
+                                <div class="d-flex justify-content-between mb-3">
+                                    <span class="fw-bold">Tổng cộng:</span>
+                                    <span class="fw-bold text-danger" th:text="${#numbers.formatDecimal(totalPrice, 0, 'COMMA', 0, 'POINT')} + '₫'">50,000₫</span>
+                                </div>
+                            </div>
+
+                            <form th:action="@{/place-order}" method="post">
+                                <!-- Thêm các trường input ẩn -->
+                                <input type="hidden" name="fullName" th:value="${user.fname + ' ' + user.lname}">
+                                <input type="hidden" name="phone" th:value="${defaultAddress != null ? defaultAddress.sdt : ''}">
+                                <input type="hidden" name="email" th:value="${user.email}">
+                                <input type="hidden" name="address" th:value="${defaultAddress != null ? defaultAddress.diachi : ''}">
+                                <input type="hidden" name="note" id="hiddenNote">
+                                <div class="card shadow-sm">
+                                    <div class="card-header bg-white">
+                                        <h5 class="mb-0">Phương thức thanh toán</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="payment-method selected" data-method="COD">
+                                            <div class="d-flex align-items-center">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="paymentMethod" id="codPayment"  value="COD" checked>
+                                                    <label class="form-check-label" for="codPayment">
+                                                        Thanh toán khi nhận hàng (COD)
+                                                    </label>
+                                                </div>
+                                                <img src="https://cdn-icons-png.flaticon.com/512/2331/2331895.png" alt="COD" class="ms-auto">
+                                            </div>
+                                        </div>
+
+                                        <div class="payment-method" data-method="BANK_TRANSFER">
+                                            <div class="d-flex align-items-center">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="paymentMethod" id="bankTransfer"  value="BankTransfer">
+                                                    <label class="form-check-label" for="bankTransfer">
+                                                        Chuyển khoản ngân hàng
+                                                    </label>
+                                                </div>
+                                                <img src="https://cdn-icons-png.flaticon.com/512/2168/2168236.png" alt="Bank Transfer" class="ms-auto">
+                                            </div>
+                                            <div class="bank-info mt-3" style="display: none;">
+                                                <div class="alert alert-info">
+                                                    <p class="mb-1"><strong>Thông tin chuyển khoản:</strong></p>
+                                                    <p class="mb-1">Ngân hàng: Vietcombank</p>
+                                                    <p class="mb-1">Số tài khoản: 1234567890</p>
+                                                    <p class="mb-1">Chủ tài khoản: CÔNG TY TNHH DMD</p>
+                                                    <p class="mb-0">Nội dung chuyển khoản: <span th:text="${orderCode}">DMD12345678</span></p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="payment-method" data-method="MOMO">
+                                            <div class="d-flex align-items-center">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="paymentMethod" id="momoPayment"  value="MoMo">
+                                                    <label class="form-check-label" for="momoPayment">
+                                                        Thanh toán qua Ví MoMo
+                                                    </label>
+                                                </div>
+                                                <img src="https://upload.wikimedia.org/wikipedia/vi/f/fe/MoMo_Logo.png" alt="MoMo" class="ms-auto">
+                                            </div>
+                                            <div class="qr-code-container" id="momoQRCode">
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg" alt="MoMo QR Code" class="img-fluid" style="max-width: 200px;">
+                                                <p class="mt-2">Quét mã QR để thanh toán qua MoMo</p>
+                                                <p>Số tiền: <span class="fw-bold text-danger" th:text="${#numbers.formatDecimal(totalPrice, 0, 'COMMA', 0, 'POINT')} + '₫'">50,000₫</span></p>
+                                            </div>
+                                        </div>
+
+                                        <div class="payment-method" data-method="VNPAY">
+                                            <div class="d-flex align-items-center">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="paymentMethod" id="vnpayPayment"  value="VnPay">
+                                                    <label class="form-check-label" for="vnpayPayment">
+                                                        Thanh toán qua VNPay
+                                                    </label>
+                                                </div>
+                                                <img src="https://vnpay.vn/s1/statics.vnpay.vn/2023/9/06ncktiwd6dc1694418196384.png" alt="VNPay" class="ms-auto">
+                                            </div>
+                                            <div class="qr-code-container" id="vnpayQRCode">
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg" alt="VNPay QR Code" class="img-fluid" style="max-width: 200px;">
+                                                <p class="mt-2">Quét mã QR để thanh toán qua VNPay</p>
+                                                <p>Số tiền: <span class="fw-bold text-danger" th:text="${#numbers.formatDecimal(totalPrice, 0, 'COMMA', 0, 'POINT')} + '₫'">50,000₫</span></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="submit" id="placeOrderBtn" class="btn btn-primary w-100">
+                                    Đặt hàng
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<!-- Bootstrap JS Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Custom JavaScript -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Xử lý chọn phương thức thanh toán
+        const paymentMethods = document.querySelectorAll('.payment-method');
+        const paymentMethodInput = document.getElementById('paymentMethodInput');
+        const bankInfo = document.querySelector('.bank-info');
+        const momoQRCode = document.getElementById('momoQRCode');
+        const vnpayQRCode = document.getElementById('vnpayQRCode');
+
+        paymentMethods.forEach(method => {
+            method.addEventListener('click', function() {
+                // Bỏ chọn tất cả
+                paymentMethods.forEach(m => m.classList.remove('selected'));
+                // Chọn phương thức hiện tại
+                this.classList.add('selected');
+                // Cập nhật input hidden
+                paymentMethodInput.value = this.getAttribute('data-method');
+                // Chọn radio button
+                const radio = this.querySelector('input[type="radio"]');
+                radio.checked = true;
+
+                // Ẩn tất cả thông tin bổ sung
+                bankInfo.style.display = 'none';
+                momoQRCode.classList.remove('active');
+                vnpayQRCode.classList.remove('active');
+
+                // Hiển thị thông tin bổ sung tương ứng
+                if (this.getAttribute('data-method') === 'BANK_TRANSFER') {
+                    bankInfo.style.display = 'block';
+                } else if (this.getAttribute('data-method') === 'MOMO') {
+                    momoQRCode.classList.add('active');
+                } else if (this.getAttribute('data-method') === 'VNPAY') {
+                    vnpayQRCode.classList.add('active');
+                }
+            });
+        });
+
+        // Xử lý nút đặt hàng
+        const placeOrderBtn = document.getElementById('placeOrderBtn');
+        const checkoutForm = document.getElementById('checkoutForm');
+
+        placeOrderBtn.addEventListener('click', function() {
+            // Kiểm tra form hợp lệ
+            if (checkoutForm.checkValidity()) {
+                checkoutForm.submit();
+            } else {
+                // Hiển thị thông báo lỗi
+                checkoutForm.reportValidity();
+            }
+        });
+    });
+</script>
+
+<!-- Import Header Script -->
+<div th:replace="~{fragments/header :: header-script}"></div>
+</body>
+</html>

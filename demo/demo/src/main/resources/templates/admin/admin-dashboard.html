@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Tổng Quan</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- CSS Tùy chỉnh (Copy từ các trang admin khác) -->
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .sidebar {
+            background-color: #212529;
+            color: #fff;
+            min-height: 100vh;
+            position: fixed;
+            width: 250px;
+        }
+        .sidebar .nav-link {
+            color: rgba(255, 255, 255, 0.75);
+            padding: 0.75rem 1rem;
+            border-radius: 0.25rem;
+            margin: 0.2rem 0;
+        }
+        .sidebar .nav-link:hover {
+            color: #fff;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .sidebar .nav-link.active {
+            color: #fff;
+            background-color: #0d6efd;
+        }
+        .sidebar .nav-link i {
+            margin-right: 0.5rem;
+        }
+        .main-content {
+            margin-left: 250px;
+            padding: 2rem;
+        }
+        .card {
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            margin-bottom: 1.5rem;
+        }
+        .stat-card {
+            text-align: center;
+            padding: 1.5rem;
+        }
+        .stat-card .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: #0d6efd;
+        }
+        .stat-card .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        .stat-card .stat-label {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        .table-dashboard img {
+            width: 35px;
+            height: 35px;
+            object-fit: cover;
+            border-radius: 0.2rem;
+        }
+
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 100%;
+                position: relative;
+                min-height: auto;
+            }
+            .main-content {
+                margin-left: 0;
+            }
+            .sidebar-nav {
+                display: flex;
+                flex-wrap: wrap;
+            }
+            .sidebar-nav .nav-item {
+                width: auto;
+            }
+        }
+        .navbar-mobile {
+            display: none;
+        }
+        @media (max-width: 992px) {
+            .navbar-mobile {
+                display: block;
+            }
+            .sidebar {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Thanh điều hướng cho thiết bị di động -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-mobile">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Quản Trị Hệ Thống</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavMobileDashboard">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavMobileDashboard">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" th:href="@{/admin/dashboard}"><i class="fas fa-tachometer-alt"></i> Tổng Quan</a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/admin-product}" class="nav-link">
+                        <i class="fas fa-box"></i> Sản Phẩm
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/orders}" class="nav-link">
+                        <i class="fas fa-shopping-cart"></i> Đơn Hàng
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/customers}" class="nav-link">
+                        <i class="fas fa-users"></i> Khách Hàng
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fas fa-cog"></i> Cài Đặt</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/LoginUser}"><i class="fas fa-sign-out-alt"></i> Đăng Xuất</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Thanh bên -->
+<div class="sidebar">
+    <div class="d-flex flex-column p-3">
+        <a href="#" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+            <i class="fas fa-store-alt fs-4 me-2"></i>
+            <span class="fs-4">Quản Trị Hệ Thống</span>
+        </a>
+        <hr>
+        <ul class="nav nav-pills flex-column mb-auto sidebar-nav">
+            <li class="nav-item">
+                <a th:href="@{/admin/dashboard}" class="nav-link active"> <!-- Đặt active cho Tổng Quan -->
+                    <i class="fas fa-tachometer-alt"></i> Tổng Quan
+                </a>
+            </li>
+            <li class="nav-item">
+                <a th:href="@{/admin-product}" class="nav-link">
+                    <i class="fas fa-box"></i> Sản Phẩm
+                </a>
+            </li>
+            <li class="nav-item">
+                <a th:href="@{/orders}" class="nav-link">
+                    <i class="fas fa-shopping-cart"></i> Đơn Hàng
+                </a>
+            </li>
+            <li class="nav-item">
+                <a th:href="@{/customers}" class="nav-link">
+                    <i class="fas fa-users"></i> Khách Hàng
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-cog"></i> Cài Đặt
+                </a>
+            </li>
+        </ul>
+        <hr>
+        <a th:href="@{/LoginUser}" class="nav-link text-white">
+            <i class="fas fa-sign-out-alt"></i> Đăng Xuất
+        </a>
+    </div>
+</div>
+
+<!-- Nội dung chính -->
+<div class="main-content">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h2">Tổng Quan Hệ Thống</h1>
+            <p class="text-muted">Thông tin tổng hợp về hoạt động kinh doanh</p>
+        </div>
+        <div>
+            <!-- Có thể thêm nút hành động nhanh ở đây nếu cần -->
+        </div>
+    </div>
+
+    <!-- Hàng Thống Kê Chính -->
+    <div class="row mb-4">
+        <div class="col-md-6 col-lg-3 mb-3">
+            <div class="card stat-card text-dark h-100">
+                <div class="stat-icon"><i class="fas fa-dollar-sign"></i></div>
+                <div class="stat-value" th:text="${#numbers.formatDecimal(revenueLast30Days, 0, 'COMMA', 0, 'POINT')} + '₫'">0₫</div>
+
+                <h6 class="card-subtitle mb-2 text-muted">Doanh Thu (30 Ngày)</h6>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3 mb-3">
+            <div class="card stat-card text-dark h-100">
+                <div class="stat-icon"><i class="fas fa-shopping-cart"></i></div>
+                <div class="stat-value" th:text="${totalOrdersDashboard}"></div>
+
+                <h6 class="card-subtitle mb-2 text-muted">Tổng Đơn Hàng</h6>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3 mb-3">
+            <div class="card stat-card text-dark h-100">
+                <div class="stat-icon"><i class="fas fa-box-open"></i></div>
+                <div class="stat-value" th:text="${totalProducts}"></div>
+                <h6 class="card-subtitle mb-2 text-muted">Tổng Sản Phẩm</h6>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3 mb-3">
+            <div class="card stat-card text-dark h-100">
+                <div class="stat-icon"><i class="fas fa-users"></i></div>
+                <div class="stat-value" th:text="${totalCustomers}"></div>
+
+                <h6 class="card-subtitle mb-2 text-muted">Tổng Khách Hàng</h6>
+            </div>
+        </div>
+    </div>
+
+    <!-- Thống Kê Chi Tiết Hơn -->
+    <div class="row mb-4">
+        <div class="col-lg-4 mb-3">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-cogs me-2"></i>Trạng Thái Đơn Hàng</h5>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Đang Chờ Xử Lý
+                        <span class="badge bg-warning rounded-pill" th:text="${processingOrdersDashboard}">0</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Chờ Xác Nhận
+                        <span class="badge bg-info rounded-pill" th:text="${pendingConfirmationOrders}">0</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Đang Giao Hàng
+                        <span class="badge bg-primary rounded-pill" th:text="${shippingOrdersDashboard}">0</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Đã Giao Hàng
+                        <span class="badge bg-success rounded-pill" th:text="${deliveredOrders}">0</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-lg-4 mb-3">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-boxes me-2"></i>Tình Trạng Sản Phẩm</h5>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Sản Phẩm Hết Hàng
+                        <span class="badge bg-danger rounded-pill" th:text="${outOfStockProducts}">0</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Sản Phẩm Giảm Giá
+                        <span class="badge bg-info rounded-pill" th:text="${discountedProducts}">0</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-lg-4 mb-3">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-user-plus me-2"></i>Khách Hàng Mới (7 Ngày)</h5>
+                </div>
+                <div class="card-body text-center">
+                    <h2 class="display-4 fw-bold" th:text="${newCustomersLast7Days}">0</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Danh Sách Đơn Hàng Mới Nhất & Sản Phẩm Mới Nhất (Tùy chọn) -->
+    <div class="row">
+        <div class="col-lg-7 mb-4">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-receipt me-2"></i>Đơn Hàng Mới Nhất</h5>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-dashboard mb-0">
+                            <thead class="table-light">
+                            <tr>
+                                <th>Mã ĐH</th>
+                                <th>Khách Hàng</th>
+                                <th>Ngày Đặt</th>
+                                <th>Tổng Tiền</th>
+                                <th>Trạng Thái</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:if="${latestOrders != null}" th:each="order : ${latestOrders}">
+                                <td><a th:href="@{/order-detail/{id}(id=${order.id})}" th:text="${order.orderCode}"></a></td>
+                                <td th:text="${order.user != null ? (order.user.fname + ' ' + order.user.lname) : 'N/A'}"></td>
+                                <td th:text="${#dates.format(order.orderDate, 'dd/MM/yy')}"></td>
+                                <td th:text="${#numbers.formatDecimal(order.orderTotal, 0, 'COMMA', 0, 'POINT')} + '₫'"></td>
+                                <td><span class="badge" th:classappend="${order.orderStatus == 'Đang xử lý' ? 'bg-warning text-dark' : (order.orderStatus == 'Đã xác nhận' ? 'bg-info' : (order.orderStatus == 'Đang giao hàng' ? 'bg-primary' : (order.orderStatus == 'Đã giao hàng' ? 'bg-success' : 'bg-danger')))}" th:text="${order.orderStatus}"></span></td>
+                            </tr>
+                            <tr th:if="${latestOrders == null or latestOrders.isEmpty()}">
+                                <td colspan="5" class="text-center text-muted">Không có đơn hàng mới.</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer text-center" th:if="${latestOrders != null and !latestOrders.isEmpty()}">
+                    <a th:href="@{/orders}" class="btn btn-sm btn-outline-primary">Xem tất cả đơn hàng</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-5 mb-4">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-tag me-2"></i>Sản Phẩm Mới/Nổi Bật</h5>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-dashboard mb-0">
+                            <thead class="table-light">
+                            <tr>
+                                <th>Ảnh</th>
+                                <th>Tên Sản Phẩm</th>
+                                <th>Giá</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:if="${latestProducts != null}" th:each="prod : ${latestProducts}">
+                                <td><img th:src="@{${prod.linkImage}}" th:alt="${prod.productName}" class="product-img"></td>
+                                <td><a th:href="@{/admin/product-detail/{id}(id=${prod.productID})}" th:text="${prod.productName}"></a></td>
+                                <td th:text="${#numbers.formatDecimal(prod.price, 0, 'COMMA', 0, 'POINT')} + '₫'"></td>
+                            </tr>
+                            <tr th:if="${latestProducts == null or latestProducts.isEmpty()}">
+                                <td colspan="3" class="text-center text-muted">Không có sản phẩm nào để hiển thị.</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer text-center" th:if="${latestProducts != null and !latestProducts.isEmpty()}">
+                    <a th:href="@{/admin-product}" class="btn btn-sm btn-outline-primary">Xem tất cả sản phẩm</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

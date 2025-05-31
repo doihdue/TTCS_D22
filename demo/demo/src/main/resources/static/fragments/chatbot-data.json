@@ -1,0 +1,213 @@
+{
+  "defaultResponse": "Xin lỗi, tôi chưa hiểu rõ câu hỏi của bạn. Bạn có thể hỏi cụ thể hơn về các sản phẩm hạt dinh dưỡng, trái cây sấy, nguyên liệu làm bánh, chính sách mua hàng, hoặc các tính năng của hệ thống không?",
+  "rules": [
+    {
+      "keywords": ["chào shop", "chào bạn", "hello", "hi shop", "hi bạn", "xin chào", "hi"],
+      "response": "Chào bạn! Healthy for Life rất vui được hỗ trợ. Tôi có thể giúp gì cho bạn hôm nay về các sản phẩm hạt dinh dưỡng, trái cây sấy, hoặc nguyên liệu làm bánh?"
+    },
+    {
+      "keywords": ["tạm biệt", "bye", "cảm ơn shop", "cảm ơn bạn", "thank you"],
+      "response": "Tạm biệt! Nếu bạn có câu hỏi gì thêm, đừng ngần ngại hỏi nhé. Healthy for Life chúc bạn một ngày tốt lành!"
+    },
+
+
+    {
+      "keywords": ["giá óc chó", "óc chó bao nhiêu tiền", "quả óc chó giá"],
+      "response": "Hạt óc chó Mỹ của chúng tôi có giá [Giá XYZ VNĐ/kg]. Bạn có thể xem chi tiết và đặt hàng trên website nhé!"
+    },
+    {
+      "keywords": ["óc chó ăn thế nào", "cách dùng óc chó", "sử dụng óc chó"],
+      "response": "Hạt óc chó có thể ăn trực tiếp sau khi tách vỏ, thêm vào sữa chua, salad, hoặc làm sữa hạt. Rất tốt cho mẹ bầu và trẻ nhỏ."
+    },
+    {
+      "keywords": ["óc chó xuất xứ", "óc chó của nước nào"],
+      "response": "Chúng tôi cung cấp hạt óc chó chất lượng cao, nhập khẩu từ Mỹ."
+    },
+    {
+      "keywords": ["óc chó", "quả óc chó"],
+      "response": "Hạt óc chó nổi tiếng với hàm lượng Omega-3 cao, rất tốt cho sự phát triển trí não và sức khỏe tim mạch. Bạn muốn biết thêm về giá hay cách sử dụng?"
+    },
+
+    {
+      "keywords": ["giá hạnh nhân", "hạnh nhân bao nhiêu tiền"],
+      "response": "Giá hạnh nhân rang bơ của chúng tôi là [Giá ABC VNĐ/500g]. Chúng tôi cũng có hạnh nhân sấy mộc. Bạn có thể xem chi tiết trên website."
+    },
+    {
+      "keywords": ["hạnh nhân ăn thế nào", "cách dùng hạnh nhân", "sử dụng hạnh nhân"],
+      "response": "Hạnh nhân có thể ăn trực tiếp, làm sữa hạt, thêm vào ngũ cốc, salad, hoặc dùng trang trí bánh. Khoảng 20-25 hạt mỗi ngày là hợp lý."
+    },
+    {
+      "keywords": ["hạnh nhân có mấy loại"],
+      "response": "Chúng tôi có hạnh nhân rang bơ, hạnh nhân sấy mộc (tự nhiên), và hạnh nhân lát để làm bánh hoặc rắc lên món ăn. Bạn quan tâm loại nào?"
+    },
+    {
+      "keywords": ["hạnh nhân"],
+      "response": "Hạnh nhân rất giàu vitamin E, magie và chất xơ, tốt cho tim mạch và giúp kiểm soát đường huyết. Bạn muốn biết giá, cách sử dụng hay các loại chúng tôi có?"
+    },
+
+    {
+      "keywords": ["giá hạt điều", "hạt điều bao nhiêu tiền"],
+      "response": "Hạt điều rang muối loại A có giá [Giá DEF VNĐ/500g]. Chúng tôi cũng có hạt điều tươi chưa rang. Bạn có thể tham khảo thêm trên website."
+    },
+    {
+      "keywords": ["hạt điều rang muối", "hạt điều vỏ lụa"],
+      "response": "Hạt điều rang muối của chúng tôi được tuyển chọn kỹ, rang giữ độ giòn và vị béo tự nhiên. Rất thích hợp làm món ăn vặt hoặc quà biếu."
+    },
+    {
+      "keywords": ["hạt điều"],
+      "response": "Hạt điều có vị béo ngậy đặc trưng, giàu sắt và kẽm. Chúng tôi có hạt điều rang muối và hạt điều tươi. Bạn muốn hỏi thêm thông tin gì về hạt điều?"
+    },
+
+    {
+      "keywords": ["giá macca", "mắc ca bao nhiêu tiền", "hạt mắc ca giá"],
+      "response": "Hạt macca Úc nứt vỏ tự nhiên có giá [Giá GHI VNĐ/kg]. Đây là loại hạt 'nữ hoàng' rất bổ dưỡng."
+    },
+    {
+      "keywords": ["macca ăn thế nào", "cách dùng macca", "tách vỏ macca"],
+      "response": "Macca của chúng tôi là loại đã nứt vỏ, bạn có thể dùng dụng cụ chuyên dụng kèm theo hoặc kìm nhỏ để tách vỏ và thưởng thức nhân hạt béo thơm."
+    },
+    {
+      "keywords": ["macca", "mắc ca"],
+      "response": "Hạt macca được mệnh danh là 'nữ hoàng các loại hạt' vì hương vị thơm ngon và giá trị dinh dưỡng cao, đặc biệt là chất béo không bão hòa đơn. Bạn có muốn thử không hay cần biết thêm thông tin?"
+    },
+
+    {
+      "keywords": ["hạt dinh dưỡng lợi ích", "hạt dinh dưỡng tác dụng", "ăn hạt có tốt không"],
+      "response": "Hạt dinh dưỡng rất tốt cho sức khỏe, cung cấp protein, chất xơ, vitamin và khoáng chất thiết yếu. Ví dụ, hạt óc chó tốt cho não, hạnh nhân tốt cho tim mạch, hạt chia giàu omega-3 và chất xơ."
+    },
+    {
+      "keywords": ["hạt dinh dưỡng loại nào", "shop có những loại hạt gì", "các loại hạt dinh dưỡng"],
+      "response": "Chúng tôi có đa dạng các loại hạt dinh dưỡng như: hạnh nhân, óc chó, hạt điều, macca, hạt bí xanh, hạt chia, hạt hướng dương, hạt dẻ cười... Bạn quan tâm cụ thể đến loại hạt nào để tôi tư vấn chi tiết hơn?"
+    },
+    {
+      "keywords": ["hạt dinh dưỡng", "các loại hạt", "hạt ăn vặt tốt"],
+      "response": "Chúng tôi cung cấp đa dạng các loại hạt dinh dưỡng thơm ngon và bổ dưỡng. Bạn muốn tìm hiểu về loại hạt cụ thể nào, ví dụ như hạnh nhân, óc chó, hay hạt điều, hay cần tư vấn lợi ích của chúng?"
+    },
+
+
+    {
+      "keywords": ["giá xoài sấy dẻo", "xoài sấy dẻo bao nhiêu"],
+      "response": "Xoài sấy dẻo của chúng tôi có giá [Giá JKL VNĐ/500g]. Sản phẩm được làm từ xoài tươi tự nhiên, ít đường, giữ trọn vị ngon."
+    },
+    {
+      "keywords": ["xoài sấy dẻo có đường không"],
+      "response": "Xoài sấy dẻo của chúng tôi là loại ít đường / không thêm đường (tùy bạn chọn), giữ vị ngọt thanh tự nhiên của xoài chín."
+    },
+    {
+      "keywords": ["xoài sấy dẻo"],
+      "response": "Xoài sấy dẻo giữ được vị ngọt tự nhiên và hương thơm của xoài tươi, dẻo mềm dễ ăn. Đây là một trong những sản phẩm bán chạy của chúng tôi. Bạn muốn biết giá hay thông tin gì thêm?"
+    },
+    {
+      "keywords": ["giá nho khô", "nho khô bao nhiêu"],
+      "response": "Chúng tôi có nho khô Chile và nho khô Mỹ, giá dao động từ [Giá MNO] đến [Giá PQR] VNĐ/kg tùy loại. Bạn muốn biết giá cụ thể loại nào?"
+    },
+    {
+      "keywords": ["nho khô"],
+      "response": "Nho khô là món ăn vặt quen thuộc, cung cấp năng lượng nhanh chóng và chất xơ. Chúng tôi có nho khô Chile và nho khô Mỹ, quả to, không tẩm đường."
+    },
+    {
+      "keywords": ["trái cây sấy lợi ích", "trái cây sấy tốt không"],
+      "response": "Trái cây sấy giữ được nhiều vitamin và khoáng chất tự nhiên, là món ăn vặt tiện lợi và cung cấp năng lượng. Tuy nhiên, bạn nên chọn loại ít đường hoặc không đường và dùng với lượng vừa phải nhé."
+    },
+    {
+      "keywords": ["trái cây sấy loại nào", "shop có những loại trái cây sấy gì"],
+      "response": "Chúng tôi có các loại trái cây sấy phổ biến như: xoài sấy dẻo, mít sấy, nho khô, mơ sấy, chà là, dâu tây sấy, vỏ bưởi sấy... Bạn thích loại nào?"
+    },
+    {
+      "keywords": ["trái cây sấy", "hoa quả sấy"],
+      "response": "Trái cây sấy là một lựa chọn tuyệt vời cho bữa ăn nhẹ. Chúng tôi có xoài sấy, mít sấy, nho khô và nhiều loại khác. Bạn có muốn biết thêm về loại cụ thể nào không?"
+    },
+
+
+    {
+      "keywords": ["bột mì đa dụng", "bột mì số 11"],
+      "response": "Bột mì đa dụng (số 11) phù hợp để làm nhiều loại bánh mì, đế pizza, bánh ngọt thông thường. Chúng tôi có gói 500g và 1kg."
+    },
+    {
+      "keywords": ["bột làm bánh ngọt", "bột mì số 8"],
+      "response": "Bột mì số 8 (cake flour) có hàm lượng protein thấp, giúp bánh bông lan, cupcake mềm xốp hơn. Bạn cần loại này phải không?"
+    },
+    {
+      "keywords": ["nguyên liệu làm bánh bột mì", "các loại bột mì"],
+      "response": "Về bột mì, chúng tôi có bột mì đa dụng (số 11), bột mì làm bánh ngọt (số 8), bột mì nguyên cám. Bạn cần loại nào cho công thức của mình?"
+    },
+    {
+      "keywords": ["bột nở", "baking powder"],
+      "response": "Bột nở (baking powder) là nguyên liệu giúp bánh nở phồng. Chúng tôi có loại hộp nhỏ tiện dụng."
+    },
+    {
+      "keywords": ["men nở", "yeast"],
+      "response": "Men nở (yeast) thường dùng cho các loại bánh mì cần ủ. Chúng tôi có men instant dễ sử dụng."
+    },
+    {
+      "keywords": ["nguyên liệu làm bánh gồm những gì", "đồ làm bánh có những gì", "cần mua gì làm bánh"],
+      "response": "Chúng tôi cung cấp nhiều nguyên liệu làm bánh cơ bản như: các loại bột (bột mì, bột năng, bột gạo, bột nở, bột cacao), đường, bơ, trứng, vanilla, chocolate chips, các loại hạt trang trí (hạnh nhân lát, vụn dừa), màu thực phẩm... Bạn đang tìm nguyên liệu cho món bánh cụ thể nào?"
+    },
+    {
+      "keywords": ["nguyên liệu làm bánh", "đồ làm bánh", "bột làm bánh"],
+      "response": "Bạn cần tìm nguyên liệu làm bánh? Chúng tôi có bột, đường, bơ, và nhiều thứ khác. Hãy cho tôi biết bạn định làm món bánh gì để tôi tư vấn cụ thể hơn nhé!"
+    },
+
+
+    {
+      "keywords": ["khuyến mãi", "ưu đãi", "giảm giá", "sale", "chương trình"],
+      "response": "Hiện tại chúng tôi đang có chương trình [Tên chương trình khuyến mãi nếu có]. Bạn có thể xem chi tiết trên banner trang chủ hoặc mục 'Khuyến mãi' nhé! Để cập nhật các ưu đãi mới nhất, bạn có thể theo dõi fanpage hoặc đăng ký nhận tin từ chúng tôi."
+    },
+    {
+      "keywords": ["đặt hàng thế nào", "mua hàng như nào", "cách mua hàng", "đặt mua"],
+      "response": "Bạn có thể đặt hàng trực tiếp trên website của chúng tôi bằng cách thêm sản phẩm vào giỏ hàng và làm theo hướng dẫn. Hoặc bạn có thể để lại thông tin sản phẩm muốn mua và số điện thoại, chúng tôi sẽ liên hệ lại để xác nhận đơn hàng."
+    },
+    {
+      "keywords": ["phí ship", "phí vận chuyển", "ship bao nhiêu", "tiền ship"],
+      "response": "Phí vận chuyển sẽ phụ thuộc vào địa chỉ nhận hàng và tổng giá trị đơn hàng của bạn. Với đơn hàng từ [Số tiền miễn ship] VNĐ, chúng tôi sẽ miễn phí vận chuyển nội thành [Tên thành phố]. Bạn có thể xem phí ship chi tiết khi tiến hành đặt hàng trên website."
+    },
+    {
+      "keywords": ["bao lâu nhận hàng", "thời gian giao hàng", "khi nào có hàng"],
+      "response": "Thời gian giao hàng dự kiến từ 1-2 ngày cho nội thành [Tên thành phố] và 3-5 ngày cho các tỉnh thành khác (không tính Chủ Nhật và ngày lễ). Chúng tôi sẽ cố gắng giao hàng sớm nhất có thể."
+    },
+    {
+      "keywords": ["thanh toán thế nào", "cách thanh toán", "hình thức thanh toán"],
+      "response": "Chúng tôi hỗ trợ các hình thức thanh toán: chuyển khoản ngân hàng, thanh toán khi nhận hàng (COD), và thanh toán qua ví điện tử (Momo, ZaloPay,...). Bạn có thể lựa chọn hình thức phù hợp khi đặt hàng."
+    },
+    {
+      "keywords": ["đổi trả hàng", "chính sách đổi trả", "trả hàng"],
+      "response": "Chúng tôi có chính sách đổi trả trong vòng [Số ngày] ngày kể từ ngày nhận hàng nếu sản phẩm có lỗi từ nhà sản xuất, hư hỏng trong quá trình vận chuyển hoặc không đúng như mô tả. Bạn vui lòng giữ nguyên bao bì, hóa đơn và liên hệ với chúng tôi để được hỗ trợ chi tiết."
+    },
+    {
+      "keywords": ["còn hàng không", "sản phẩm này còn không"],
+      "response": "Để biết thông tin chính xác về tình trạng còn hàng của sản phẩm, bạn vui lòng kiểm tra trực tiếp trên website hoặc liên hệ với nhân viên tư vấn qua hotline/fanpage nhé. Vì số lượng hàng có thể thay đổi nhanh chóng."
+    },
+    {
+      "keywords": ["liên hệ shop", "số điện thoại shop", "địa chỉ shop", "sdt cửa hàng", "thông tin liên hệ"],
+      "response": "Bạn có thể liên hệ với Healthy for Life qua: \n- Hotline: [Số điện thoại] \n- Email: [Địa chỉ email] \n- Fanpage: [Link Fanpage] \n- Địa chỉ cửa hàng (nếu có): [Địa chỉ cửa hàng]. \nChúng tôi luôn sẵn lòng hỗ trợ bạn!"
+    },
+    {
+      "keywords": ["giờ mở cửa", "giờ làm việc", "shop mở cửa mấy giờ", "shop làm việc"],
+      "response": "Cửa hàng (nếu có) của chúng tôi mở cửa từ [Giờ mở cửa] đến [Giờ đóng cửa], từ Thứ Hai đến Thứ Bảy. Đặt hàng online và hỗ trợ qua fanpage/hotline thì chúng tôi hoạt động gần như 24/7 nhé!"
+    },
+
+
+    {
+      "keywords": ["tính năng hệ thống", "features", "quản lý có gì"],
+      "response": "Ngoài cung cấp thông tin sản phẩm, hệ thống quản lý của chúng tôi (dành cho quản trị viên) cung cấp các tính năng: Quản lý thông tin khách hàng, Phân tích dữ liệu bán hàng, Quản lý sản phẩm và tồn kho, Chương trình khách hàng thân thiết, và Thông báo tự động."
+    },
+    {
+      "keywords": ["đăng nhập admin", "login quản trị", "vào trang quản lý"],
+      "response": "Nếu bạn là quản trị viên, bạn có thể đăng nhập vào hệ thống quản lý bằng cách nhấp vào nút 'Đăng nhập' ở đầu trang hoặc truy cập đường dẫn dành riêng cho quản trị viên."
+    },
+    {
+      "keywords": ["khách hàng ưu tú", "premium customer", "khách hàng vip"],
+      "response": "Bạn có thể xem danh sách khách hàng ưu tú (nếu có) ở mục 'Khách Hàng Ưu Tú' trên trang chủ hoặc trong hệ thống quản lý (dành cho admin). Chương trình khách hàng ưu tú thường có các ưu đãi đặc biệt."
+    },
+
+
+    {
+      "keywords": ["tư vấn sản phẩm", "cần tư vấn", "giúp tôi chọn sản phẩm", "nên mua gì"],
+      "response": "Chào bạn, rất sẵn lòng tư vấn! Bạn đang tìm sản phẩm cho nhu cầu gì (ví dụ: ăn vặt healthy, cho người tiểu đường, làm quà biếu, bổ sung dinh dưỡng cho mẹ bầu/trẻ em,...)? Hãy cho tôi biết thêm để tôi có thể gợi ý sản phẩm phù hợp nhất nhé!"
+    },
+    {
+      "keywords": ["hỗ trợ", "support", "giúp đỡ", "cần giúp"],
+      "response": "Bạn cần hỗ trợ về vấn đề gì cụ thể? Vui lòng mô tả rõ hơn để tôi có thể giúp bạn tốt nhất. Ví dụ: bạn gặp vấn đề khi đặt hàng, muốn biết thêm về sản phẩm nào, hay có góp ý gì cho chúng tôi?"
+    }
+  ]
+}

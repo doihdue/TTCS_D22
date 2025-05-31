@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DMD - Hạt Dinh Dưỡng, Trái Cây Sấy, Nguyên Liệu Làm Bánh</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <style>
+        .signup-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+        .signup-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .signup-header img {
+            max-width: 150px;
+            margin-bottom: 20px;
+        }
+        .signup-form .form-control {
+            height: 50px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .signup-btn {
+            height: 50px;
+            background-color: #0056b3;
+            border: none;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        .signup-btn:hover {
+            background-color: #003d7e;
+        }
+        .social-signup {
+            margin-top: 30px;
+            text-align: center;
+        }
+        .social-btn {
+            width: 100%;
+            margin-bottom: 15px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+            font-weight: 500;
+        }
+        .facebook-btn {
+            background-color: #3b5998;
+            color: white;
+        }
+        .google-btn {
+            background-color: #fff;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 30px 0;
+        }
+        .divider hr {
+            flex: 1;
+            border-color: #ddd;
+        }
+        .divider span {
+            padding: 0 15px;
+            color: #777;
+        }
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        /* Password toggle button style */
+        .password-container {
+            position: relative;
+        }
+        .password-toggle {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            color: #6c757d;
+        }
+        .password-toggle:hover {
+            color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<!-- Import Header Fragment -->
+<div th:replace="~{fragments/header :: header}"></div>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <div class="signup-container">
+                <div class="signup-header">
+                    <h2>Đăng Ký Tài Khoản</h2>
+                    <p class="text-muted">Tạo tài khoản để mua sắm và nhận nhiều ưu đãi hơn</p>
+                </div>
+
+                <form class="signup-form" th:action="@{/signupUser}" th:object="${user}" method="post">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Họ</label>
+                                <input type="text" class="form-control" th:field="*{lname}" placeholder="Nhập họ của bạn" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Tên</label>
+                                <input type="text" class="form-control" th:field="*{fname}" placeholder="Nhập tên của bạn" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" th:field="*{email}" placeholder="Nhập email của bạn" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Số điện thoại</label>
+                        <input type="tel" class="form-control" th:field="*{phone}" placeholder="Nhập số điện thoại của bạn" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Mật khẩu</label>
+                        <div class="password-container">
+                            <input type="password" class="form-control" th:field="*{password}" placeholder="Tạo mật khẩu (ít nhất 8 ký tự)" required>
+                            <button type="button" class="password-toggle" aria-label="Hiển thị/Ẩn mật khẩu">
+                                <i class="far fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Xác nhận mật khẩu</label>
+                        <div class="password-container">
+                            <input type="password" class="form-control" th:field="*{confirmPassword}" placeholder="Nhập lại mật khẩu" required>
+                            <button type="button" class="password-toggle" aria-label="Hiển thị/Ẩn mật khẩu xác nhận">
+                                <i class="far fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input"  required>
+                        <label class="form-check-label">
+                            Tôi đồng ý với <a href="#">Điều khoản dịch vụ</a> và <a href="#">Chính sách bảo mật</a>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary signup-btn w-100">ĐĂNG KÝ</button>
+                </form>
+
+
+                <div class="divider">
+                    <hr>
+                    <span>HOẶC</span>
+                    <hr>
+                </div>
+                
+                <div class="social-signup">
+                    <button class="btn social-btn facebook-btn mb-3">
+                        <i class="fab fa-facebook-f me-2"></i> Đăng ký bằng Facebook
+                    </button>
+                    <button class="btn social-btn google-btn">
+                        <i class="fab fa-google me-2"></i> Đăng ký bằng Google
+                    </button>
+                </div>
+                
+                <div class="login-link">
+                    <p>Bạn đã có tài khoản? <a th:href="@{/LoginUser}">Đăng nhập ngay</a></p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Import Footer Fragment -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+
+<!-- Import Header Script -->
+    <div th:replace="~{fragments/header :: header-script}"></div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JavaScript -->
+    <script th:src="@{/js/script.js}"></script>
+
+    <!-- Password Toggle Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Password field toggle
+            const togglePassword = document.getElementById('togglePassword');
+            const password = document.getElementById('password');
+            const toggleIcon = document.getElementById('toggleIcon');
+            
+            togglePassword.addEventListener('click', function() {
+                // Toggle the type attribute
+                const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+                password.setAttribute('type', type);
+                
+                // Toggle the icon
+                if (type === 'password') {
+                    toggleIcon.classList.remove('fa-eye-slash');
+                    toggleIcon.classList.add('fa-eye');
+                } else {
+                    toggleIcon.classList.remove('fa-eye');
+                    toggleIcon.classList.add('fa-eye-slash');
+                }
+            });
+            
+            // Confirm Password field toggle
+            const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
+            const confirmPassword = document.getElementById('confirmPassword');
+            const toggleConfirmIcon = document.getElementById('toggleConfirmIcon');
+            
+            toggleConfirmPassword.addEventListener('click', function() {
+                // Toggle the type attribute
+                const type = confirmPassword.getAttribute('type') === 'password' ? 'text' : 'password';
+                confirmPassword.setAttribute('type', type);
+                
+                // Toggle the icon
+                if (type === 'password') {
+                    toggleConfirmIcon.classList.remove('fa-eye-slash');
+                    toggleConfirmIcon.classList.add('fa-eye');
+                } else {
+                    toggleConfirmIcon.classList.remove('fa-eye');
+                    toggleConfirmIcon.classList.add('fa-eye-slash');
+                }
+            });
+            
+            // Prevent the form from submitting when clicking the toggle buttons
+            togglePassword.addEventListener('mousedown', function(e) {
+                e.preventDefault();
+            });
+            
+            toggleConfirmPassword.addEventListener('mousedown', function(e) {
+                e.preventDefault();
+            });
+        });
+    </script>
+</body>
+</html>

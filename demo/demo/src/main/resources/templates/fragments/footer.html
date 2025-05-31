@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Footer</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<!-- Footer Fragment -->
+<footer th:fragment="footer" class="footer py-5 bg-primary">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <h5 class="text-white mb-3">VỀ CHÚNG TÔI</h5>
+                <p class="text-white-50">DMD chuyên cung cấp các loại hạt dinh dưỡng, trái cây sấy và nguyên liệu làm bánh chất lượng cao, đảm bảo an toàn vệ sinh thực phẩm.</p>
+                <div class="social-links mt-3">
+                    <a href="https://www.facebook.com/due.minh.0624" class="text-white me-2"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="text-white me-2"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-white me-2"><i class="fab fa-youtube"></i></a>
+                    <a href="#" class="text-white"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <h5 class="text-white mb-3">THÔNG TIN LIÊN HỆ</h5>
+                <ul class="list-unstyled text-white-50">
+                    <li class="mb-2"><i class="fas fa-map-marker-alt me-2"></i> Đồng Dâu - Tốt Động - Chương Mỹ - Hà Nội</li>
+                    <li class="mb-2"><i class="fas fa-phone me-2"></i> 0398693680</li>
+                    <li class="mb-2"><i class="fas fa-envelope me-2"></i> dominhdue04@gmail.com</li>
+                    <li><i class="fas fa-clock me-2"></i> 8:00 - 20:00 (Thứ 2 - Chủ Nhật)</li>
+                </ul>
+            </div>
+            <div class="col-md-4 mb-4">
+                <h5 class="text-white mb-3">ĐĂNG KÝ NHẬN TIN</h5>
+                <p class="text-white-50">Đăng ký để nhận thông tin về sản phẩm mới và khuyến mãi đặc biệt.</p>
+                <form class="mt-3">
+                    <div class="input-group mb-3">
+                        <input type="email" class="form-control" placeholder="Email của bạn" required>
+                        <button class="btn btn-primary" type="submit">Đăng ký</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="border-top border-secondary pt-4 mt-4">
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="text-white-50 mb-0">&copy; 2023 DMD. Tất cả quyền được bảo lưu.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <ul class="list-inline mb-0">
+                        <li class="list-inline-item"><a href="#" class="text-white-50">Chính sách bảo mật</a></li>
+                        <li class="list-inline-item"><a href="#" class="text-white-50">Điều khoản sử dụng</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <a href="#" class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <!-- Floating Contact Buttons -->
+    <div class="floating-contact-wrapper">
+        <!-- Nút chính để bật/tắt menu -->
+        <button id="contact-toggle-btn" class="contact-toggle-btn" aria-expanded="false" aria-controls="contact-options-menu">
+            <i class="fas fa-plus"></i> <!-- Icon ban đầu -->
+            <i class="fas fa-times" style="display: none;"></i> <!-- Icon khi menu mở (ẩn ban đầu) -->
+        </button>
+
+        <!-- Các tùy chọn liên hệ (ẩn ban đầu) -->
+        <div id="contact-options-menu" class="contact-options" style="display: none;">
+            <a href="tel:0398693680" class="phone-btn contact-option">
+                <i class="fas fa-phone"></i>
+                <span class="phone-number">0398693680</span>
+            </a>
+            <a href="https://www.messenger.com/t/due.minh.0624/" class="messenger-btn contact-option" target="_blank">
+                <i class="fab fa-facebook-messenger"></i>
+            </a>
+            <a href="https://zalo.me/0398693680" class="zalo-btn contact-option" target="_blank">
+                <span>Zalo</span> <!-- Hoặc bạn có thể tìm một icon Zalo phù hợp nếu muốn -->
+            </a>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const toggleButton = document.getElementById('contact-toggle-btn');
+            const contactOptionsMenu = document.getElementById('contact-options-menu');
+            const openIcon = toggleButton.querySelector('.fa-plus');
+            const closeIcon = toggleButton.querySelector('.fa-times');
+
+            if (toggleButton && contactOptionsMenu && openIcon && closeIcon) {
+                toggleButton.addEventListener('click', function () {
+                    const isExpanded = toggleButton.getAttribute('aria-expanded') === 'true';
+
+                    if (contactOptionsMenu.style.display === 'none' || contactOptionsMenu.style.display === '') {
+                        contactOptionsMenu.style.display = 'flex'; // Hoặc 'block' tùy theo layout bạn muốn
+                        // Sử dụng timeout nhỏ để trình duyệt có thời gian áp dụng 'display' trước khi bắt đầu transition
+                        setTimeout(() => {
+                            contactOptionsMenu.classList.add('active');
+                        }, 10);
+                        toggleButton.setAttribute('aria-expanded', 'true');
+                        openIcon.style.display = 'none';
+                        closeIcon.style.display = 'inline';
+                    } else {
+                        contactOptionsMenu.classList.remove('active');
+                        // Chờ transition hoàn thành rồi mới set display: none
+                        contactOptionsMenu.addEventListener('transitionend', function handler() {
+                            if (!contactOptionsMenu.classList.contains('active')) {
+                                contactOptionsMenu.style.display = 'none';
+                            }
+                            contactOptionsMenu.removeEventListener('transitionend', handler);
+                        });
+                        toggleButton.setAttribute('aria-expanded', 'false');
+                        openIcon.style.display = 'inline';
+                        closeIcon.style.display = 'none';
+                    }
+                });
+
+                // (Tùy chọn) Đóng menu khi click bên ngoài
+                document.addEventListener('click', function(event) {
+                    const isClickInsideWrapper = toggleButton.contains(event.target) || contactOptionsMenu.contains(event.target);
+                    if (!isClickInsideWrapper && contactOptionsMenu.classList.contains('active')) {
+                        contactOptionsMenu.classList.remove('active');
+                        contactOptionsMenu.addEventListener('transitionend', function handler() {
+                            if (!contactOptionsMenu.classList.contains('active')) {
+                                contactOptionsMenu.style.display = 'none';
+                            }
+                            contactOptionsMenu.removeEventListener('transitionend', handler);
+                        });
+                        toggleButton.setAttribute('aria-expanded', 'false');
+                        openIcon.style.display = 'inline';
+                        closeIcon.style.display = 'none';
+                    }
+                });
+            } else {
+                console.error("Không tìm thấy các element cần thiết cho floating contact button.");
+            }
+        });
+    </script>
+
+
+    <!-- Simple Chatbot -->
+    <div id="simpleChatbot" class="chatbot-container">
+        <div class="chatbot-header">
+            <span><i class="fas fa-robot me-2"></i>Hỗ trợ viên</span>
+            <button id="closeChatbot" class="chatbot-close-btn">×</button>
+        </div>
+        <div id="chatbotMessages" class="chatbot-messages">
+            <!-- Tin nhắn mẫu -->
+            <div class="message bot-message">
+                <p>Chào bạn! Tôi có thể giúp gì cho bạn?</p>
+            </div>
+        </div>
+        <div class="chatbot-input-area">
+            <input type="text" id="chatbotInput" placeholder="Nhập tin nhắn...">
+            <button id="sendChatbotMessage"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+    <button id="openChatbot" class="chatbot-toggle-btn">
+        <i class="fas fa-comments"></i>
+    </button>
+
+    <!-- End Simple Chatbot -->
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() { // Make this async
+            const openChatbotBtn = document.getElementById('openChatbot');
+            const closeChatbotBtn = document.getElementById('closeChatbot');
+            const chatbotContainer = document.getElementById('simpleChatbot');
+            const chatbotMessages = document.getElementById('chatbotMessages');
+            const chatbotInput = document.getElementById('chatbotInput');
+            const sendChatbotMessageBtn = document.getElementById('sendChatbotMessage');
+
+            let botResponsesData = null; // To store loaded JSON data
+
+            // --- NEW: Function to load bot responses data ---
+            async function loadBotResponses() {
+                try {
+                    const response = await fetch('fragments/chatbot-data.json');
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    botResponsesData = await response.json();
+                    console.log("Dữ liệu chatbot đã được tải thành công!");
+                    // Enable input and send button after data is loaded
+                    chatbotInput.disabled = false;
+                    sendChatbotMessageBtn.disabled = false;
+                    chatbotInput.placeholder = "Nhập tin nhắn...";
+                } catch (error) {
+                    console.error("Không thể tải dữ liệu chatbot:", error);
+                    chatbotInput.placeholder = "Lỗi tải dữ liệu bot...";
+                    // Optionally display an error message to the user in the chat
+                    displayMessage("Xin lỗi, tôi đang gặp sự cố kỹ thuật. Vui lòng thử lại sau.", 'bot');
+                }
+            }
+
+            // Load data when DOM is ready
+            await loadBotResponses(); // Wait for data to load
+
+            // Mở/Đóng chatbot
+            openChatbotBtn.addEventListener('click', () => {
+                chatbotContainer.style.display = 'flex';
+                openChatbotBtn.style.display = 'none';
+            });
+
+            closeChatbotBtn.addEventListener('click', () => {
+                chatbotContainer.style.display = 'none';
+                openChatbotBtn.style.display = 'flex';
+            });
+
+            // Gửi tin nhắn
+            function sendMessage() {
+                if (chatbotInput.disabled) return; // Don't send if data hasn't loaded
+
+                const userText = chatbotInput.value.trim();
+                if (userText === '') return;
+
+                displayMessage(userText, 'user');
+                chatbotInput.value = '';
+
+                setTimeout(() => {
+                    const botResponse = getBotResponse(userText);
+                    displayMessage(botResponse, 'bot');
+                }, 500);
+            }
+
+            sendChatbotMessageBtn.addEventListener('click', sendMessage);
+            chatbotInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+
+            // Hiển thị tin nhắn trong chatbox
+            function displayMessage(text, sender) {
+                const messageDiv = document.createElement('div');
+                messageDiv.classList.add('message', sender + '-message');
+
+                const p = document.createElement('p');
+                p.textContent = text;
+                messageDiv.appendChild(p);
+
+                chatbotMessages.appendChild(messageDiv);
+                chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+            }
+
+            // --- MODIFIED: Logic phản hồi của Bot dựa trên dữ liệu JSON ---
+            function getBotResponse(userInput) {
+                if (!botResponsesData) {
+                    return "Xin lỗi, dữ liệu phản hồi chưa sẵn sàng. Vui lòng thử lại sau.";
+                }
+
+                const lowerInput = userInput.toLowerCase();
+
+                // Duyệt qua các quy tắc trong file JSON
+                // Quan trọng: Các quy tắc cụ thể hơn (ví dụ: nhiều từ khóa) nên được đặt ở đầu file JSON
+                // để chúng được khớp trước các quy tắc chung hơn.
+                for (const rule of botResponsesData.rules) {
+                    // Kiểm tra xem TẤT CẢ các từ khóa trong rule.keywords có trong userInput không
+                    // Hoặc bạn có thể thay đổi logic này để khớp nếu BẤT KỲ từ khóa nào có mặt
+                    // Hiện tại, tôi sẽ làm cho nó khớp nếu BẤT KỲ từ khóa nào có mặt để giống với logic .includes() ban đầu của bạn
+                    let match = false;
+                    for (const keyword of rule.keywords) {
+                        if (lowerInput.includes(keyword.toLowerCase())) { // Đảm bảo từ khóa trong JSON cũng được so sánh không phân biệt chữ hoa/thường
+                            match = true;
+                            break; // Chỉ cần một từ khóa khớp là đủ cho quy tắc này
+                        }
+                    }
+                    if (match) {
+                        return rule.response;
+                    }
+                }
+
+                // Nếu không có quy tắc nào khớp, trả về câu trả lời mặc định
+                return botResponsesData.defaultResponse || "Xin lỗi, tôi không hiểu câu hỏi của bạn.";
+            }
+
+            // Tin nhắn chào mừng ban đầu khi mở chat (nếu muốn)
+            openChatbotBtn.addEventListener('click', () => {
+                if (chatbotMessages.children.length === 0 ||
+                    (chatbotMessages.children.length > 0 && !chatbotMessages.lastElementChild.classList.contains('bot-message'))) {
+                    // displayMessage('Chào bạn! Tôi có thể giúp gì cho bạn?', 'bot'); // Bỏ comment nếu muốn
+                }
+            });
+        });
+    </script>
+</footer>
+</body>
+</html>

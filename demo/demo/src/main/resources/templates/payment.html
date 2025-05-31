@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thanh Toán - DMD</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <style>
+    .payment-info {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .qr-code-container {
+      text-align: center;
+      margin: 30px 0;
+    }
+    .qr-code-container img {
+      max-width: 250px;
+      margin-bottom: 15px;
+    }
+    .bank-info {
+      background-color: #f8f9fa;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .countdown {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #dc3545;
+      margin: 20px 0;
+      text-align: center;
+    }
+    .payment-steps {
+      margin-bottom: 30px;
+    }
+    .payment-steps .step {
+      display: flex;
+      margin-bottom: 15px;
+    }
+    .payment-steps .step-number {
+      width: 30px;
+      height: 30px;
+      background-color: #0d6efd;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 15px;
+      flex-shrink: 0;
+    }
+    .payment-steps .step-content {
+      flex-grow: 1;
+    }
+  </style>
+</head>
+<body>
+<!-- Import Header Fragment -->
+<div th:replace="~{fragments/header :: header}"></div>
+
+<!-- Breadcrumb -->
+<section class="breadcrumb-section py-3 bg-light">
+  <div class="container">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb mb-0">
+        <li class="breadcrumb-item"><a th:href="@{/}">Trang chủ</a></li>
+        <li class="breadcrumb-item"><a th:href="@{/giohang}">Giỏ hàng</a></li>
+        <li class="breadcrumb-item"><a th:href="@{/checkout}">Thanh toán</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Thanh toán trực tuyến</li>
+      </ol>
+    </nav>
+  </div>
+</section>
+
+<!-- Payment Section -->
+<section class="payment-section py-5">
+  <div class="container">
+    <div class="payment-info">
+      <div class="text-center mb-4">
+        <h2 class="mb-2">Thanh toán đơn hàng</h2>
+        <p class="lead">Mã đơn hàng: <span class="fw-bold" th:text="${checkout.orderCode}">DMD12345678</span></p>
+        <div class="countdown" id="countdown">Thời gian còn lại: 15:00</div>
+      </div>
+
+      <!-- Thông tin đơn hàng -->
+      <div class="card mb-4">
+        <div class="card-header bg-white">
+          <h5 class="mb-0">Thông tin đơn hàng</h5>
+        </div>
+        <div class="card-body">
+          <div class="row mb-2">
+            <div class="col-md-4 fw-bold">Tổng tiền:</div>
+            <div class="col-md-8 text-danger fw-bold" th:text="${#numbers.formatDecimal(checkout.orderTotal, 0, 'COMMA', 0, 'POINT')} + '₫'">150,000₫</div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-4 fw-bold">Phương thức:</div>
+            <div class="col-md-8">
+              <span th:if="${checkout.paymentMethod.name() == 'BankTransfer'}">Chuyển khoản ngân hàng</span>
+              <span th:if="${checkout.paymentMethod.name() == 'MoMo'}">Thanh toán qua Ví MoMo</span>
+              <span th:if="${checkout.paymentMethod.name() == 'VnPay'}">Thanh toán qua VNPay</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Thông tin thanh toán -->
+      <div th:if="${checkout.paymentMethod.name() == 'BankTransfer'}" class="bank-info">
+        <h5 class="mb-3">Thông tin chuyển khoản</h5>
+        <div class="row mb-2">
+          <div class="col-md-4 fw-bold">Ngân hàng:</div>
+          <div class="col-md-8" th:text="${bankInfo.bankName}">Vietcombank</div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-md-4 fw-bold">Số tài khoản:</div>
+          <div class="col-md-8" th:text="${bankInfo.accountNumber}">1234567890</div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-md-4 fw-bold">Chủ tài khoản:</div>
+          <div class="col-md-8" th:text="${bankInfo.accountName}">CÔNG TY TNHH DMD</div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-md-4 fw-bold">Số tiền:</div>
+          <div class="col-md-8 text-danger fw-bold" th:text="${#numbers.formatDecimal(checkout.orderTotal, 0, 'COMMA', 0, 'POINT')} + '₫'">150,000₫</div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 fw-bold">Nội dung CK:</div>
+          <div class="col-md-8" th:text="${bankInfo.transferContent}">DMD12345678</div>
+        </div>
+      </div>
+
+      <!-- MoMo QR Code -->
+      <div th:if="${checkout.paymentMethod.name() == 'MoMo'}" class="qr-code-container">
+        <h5 class="mb-3">Quét mã QR để thanh toán qua MoMo</h5>
+        <img th:src="${momoQR}" alt="MoMo QR Code" class="img-fluid">
+        <p>Số tiền: <span class="fw-bold text-danger" th:text="${#numbers.formatDecimal(checkout.orderTotal, 0, 'COMMA', 0, 'POINT')} + '₫'">150,000₫</span></p>
+      </div>
+
+      <!-- VNPay QR Code -->
+      <div th:if="${checkout.paymentMethod.name() == 'VnPay'}" class="qr-code-container">
+        <h5 class="mb-3">Quét mã QR để thanh toán qua VNPay</h5>
+        <img th:src="${vnpayQR}" alt="VNPay QR Code" class="img-fluid">
+        <p>Số tiền: <span class="fw-bold text-danger" th:text="${#numbers.formatDecimal(checkout.orderTotal, 0, 'COMMA', 0, 'POINT')} + '₫'">150,000₫</span></p>
+      </div>
+
+      <!-- Hướng dẫn thanh toán -->
+      <div class="payment-steps">
+        <h5 class="mb-3">Hướng dẫn thanh toán</h5>
+
+        <div th:if="${checkout.paymentMethod.name() == 'BankTransfer'}" class="steps">
+          <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <p class="mb-0">Mở ứng dụng ngân hàng hoặc Internet Banking của bạn</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <p class="mb-0">Chuyển khoản theo thông tin bên trên</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <p class="mb-0">Nhập chính xác nội dung chuyển khoản</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+              <p class="mb-0">Nhấn "Đã thanh toán" sau khi hoàn tất chuyển khoản</p>
+            </div>
+          </div>
+        </div>
+
+        <div th:if="${checkout.paymentMethod.name() == 'MoMo' || checkout.paymentMethod.name() == 'VnPay'}" class="steps">
+          <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <p class="mb-0">Mở ứng dụng <span th:text="${checkout.paymentMethod.name() == 'MoMo' ? 'MoMo' : 'VNPay'}"></span> trên điện thoại của bạn</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <p class="mb-0">Chọn chức năng quét mã QR</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <p class="mb-0">Quét mã QR hiển thị trên màn hình</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+              <p class="mb-0">Xác nhận thanh toán trên ứng dụng</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">5</div>
+            <div class="step-content">
+              <p class="mb-0">Nhấn "Đã thanh toán" sau khi hoàn tất thanh toán</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form xác nhận thanh toán -->
+      <form th:action="@{'/confirm-payment/' + ${checkout.orderCode}}" method="post" class="mb-4">
+        <div class="mb-3" th:if="${checkout.paymentMethod.name() == 'BankTransfer'}">
+          <label for="transactionId" class="form-label">Mã giao dịch (nếu có)</label>
+          <input type="text" class="form-control" id="transactionId" name="transactionId" placeholder="Nhập mã giao dịch">
+        </div>
+        <div class="d-grid gap-2">
+          <button type="submit" class="btn btn-primary btn-lg">
+            <i class="fas fa-check-circle me-2"></i> Đã thanh toán
+          </button>
+          <a th:href="@{'/cancel-payment/' + ${checkout.orderCode}}" class="btn btn-outline-secondary">
+            <i class="fas fa-times-circle me-2"></i> Hủy thanh toán
+          </a>
+        </div>
+      </form>
+
+      <div class="alert alert-info">
+        <i class="fas fa-info-circle me-2"></i> Lưu ý: Đơn hàng của bạn sẽ được xử lý sau khi chúng tôi xác nhận thanh toán thành công.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Import Footer Fragment -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+
+<!-- Import Header Script -->
+<div th:replace="~{fragments/header :: header-script}"></div>
+
+<!-- Bootstrap JS Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Countdown Script -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Đếm ngược 15 phút
+    let minutes = 15;
+    let seconds = 0;
+
+    const countdownElement = document.getElementById('countdown');
+
+    const countdownInterval = setInterval(function() {
+      if (seconds === 0) {
+        if (minutes === 0) {
+          clearInterval(countdownInterval);
+          countdownElement.innerHTML = 'Hết thời gian thanh toán!';
+          return;
+        }
+        minutes--;
+        seconds = 59;
+      } else {
+        seconds--;
+      }
+
+      const minutesStr = minutes < 10 ? '0' + minutes : minutes;
+      const secondsStr = seconds < 10 ? '0' + seconds : seconds;
+
+      countdownElement.innerHTML = 'Thời gian còn lại: ' + minutesStr + ':' + secondsStr;
+    }, 1000);
+  });
+</script>
+</body>
+</html>
